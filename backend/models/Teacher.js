@@ -41,6 +41,20 @@ const teacherSchema = new mongoose.Schema(
       trim: true,
     },
 
+    assignedClasses: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Class",
+      },
+    ],
+
+    subjects: [
+      {
+        type: String,
+        trim: true,
+      },
+    ],
+
     isActive: {
       type: Boolean,
       default: true,
