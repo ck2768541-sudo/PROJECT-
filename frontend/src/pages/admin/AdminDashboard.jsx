@@ -1,37 +1,24 @@
+import Sidebar from "../../components/layout/Sidebar";
+import Topbar from "../../components/layout/Topbar";
+import StatsCard from "../../components/dashboard/StatsCard";
+
 function AdminDashboard() {
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold text-gray-900">
-        Admin Dashboard
-      </h1>
+    <div className="flex min-h-screen bg-gray-100">
+      <Sidebar />
 
-      <p className="mt-2 text-gray-600">
-        Welcome to Upsthiti Admin Panel
-      </p>
+      <main className="flex-1">
+        <Topbar />
 
-      <div className="mt-10 grid gap-6 md:grid-cols-4">
-
-        <div className="rounded-xl bg-white p-6 shadow">
-          <h2 className="text-lg font-semibold">Students</h2>
-          <p className="mt-3 text-4xl font-bold">0</p>
-        </div>
-
-        <div className="rounded-xl bg-white p-6 shadow">
-          <h2 className="text-lg font-semibold">Teachers</h2>
-          <p className="mt-3 text-4xl font-bold">0</p>
-        </div>
-
-        <div className="rounded-xl bg-white p-6 shadow">
-          <h2 className="text-lg font-semibold">Classes</h2>
-          <p className="mt-3 text-4xl font-bold">0</p>
-        </div>
-
-        <div className="rounded-xl bg-white p-6 shadow">
-          <h2 className="text-lg font-semibold">Attendance</h2>
-          <p className="mt-3 text-4xl font-bold">0%</p>
-        </div>
-
-      </div>
+        <section className="p-8">
+          <div className="grid gap-6 md:grid-cols-4">
+            <StatsCard title="Total Students" value="0" icon="🎓" />
+            <StatsCard title="Total Teachers" value="0" icon="👨‍🏫" />
+            <StatsCard title="Classes" value="0" icon="🏫" />
+            <StatsCard title="Attendance" value="0%" icon="📊" />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
