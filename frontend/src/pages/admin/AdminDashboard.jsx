@@ -3,21 +3,27 @@ import Sidebar from "../../components/layout/Sidebar";
 import Topbar from "../../components/layout/Topbar";
 import StatsCard from "../../components/dashboard/StatsCard";
 import { getClassCount } from "../../services/classService";
+import { getStudentCount } from "../../services/studentService";
 
 function AdminDashboard() {
   const [classCount, setClassCount] = useState(0);
+  const [studentCount, setStudentCount] = useState(0);
 
   useEffect(() => {
-    const loadCount = async () => {
+    const loadCounts = async () => {
       try {
-        const response = await getClassCount();
-        setClassCount(response.count);
-      } catch (error) {
+        const classResponse = await getClassCount();
+        const studentResponse = await getStudentCount();
+
+        setClassCount(classResponse.count);
+        setStudentCount(studentResponse.count);
+      } catch {
         setClassCount(0);
+        setStudentCount(0);
       }
     };
 
-    loadCount();
+    loadCounts();
   }, []);
 
   return (
@@ -29,7 +35,7 @@ function AdminDashboard() {
 
         <section className="p-8">
           <div className="grid gap-6 md:grid-cols-4">
-            <StatsCard title="Total Students" value="0" icon="🎓" />
+            <StatsCard title="Total Students" value={studentCount} icon="🎓" />
             <StatsCard title="Total Teachers" value="0" icon="👨‍🏫" />
             <StatsCard title="Classes" value={classCount} icon="🏫" />
             <StatsCard title="Attendance" value="0%" icon="📊" />

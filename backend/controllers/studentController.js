@@ -62,7 +62,95 @@ const getStudents = async (req, res) => {
   }
 };
 
+const updateStudent = async (req, res) => {
+  try {
+    const { classId, ...studentData } = req.body;
+
+    const updatedStudent = await Student.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        institute: req.user.institute,
+      },
+      {
+        ...studentData,
+        class: classId,
+      },
+      { new: true }
+    ).populate("class", "name section department academicYear");
+
+    if (!updatedStudent) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Student updated successfully",
+      data: updatedStudent,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const deleteStudent = async (req, res) => {
+  try {
+    const deletedStudent = await Student.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        institute: req.user.institute,
+      },
+      { isActive: false },
+      { new: true }
+    );
+
+    if (!deletedStudent) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Student deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getStudentCount = async (req, res) => {
+  try {
+    const count = await Student.countDocuments({
+      institute: req.user.institute,
+      isActive: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      count,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createStudent,
   getStudents,
+  updateStudent,
+  deleteStudent,
+  getStudentCount,
 };

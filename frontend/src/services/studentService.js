@@ -23,3 +23,18 @@ export const getStudents = async () => {
   const response = await API.get("/students", getAuthHeader());
   return response.data;
 };
+
+export const updateStudent = async (id, studentData) => {
+  const response = await API.put(`/students/${id}`, studentData, getAuthHeader());
+  return response.data;
+};
+
+export const deleteStudent = async (id) => {
+  const response = await API.delete(`/students/${id}`, getAuthHeader());
+  return response.data;
+};
+
+export const getStudentCount = async () => {
+  const response = await API.get("/students/count", getAuthHeader());
+  return response.data;
+};

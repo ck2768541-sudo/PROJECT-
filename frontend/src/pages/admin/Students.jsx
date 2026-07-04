@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import Topbar from "../../components/layout/Topbar";
-import { createStudent, getStudents } from "../../services/studentService";
+import {
+  createStudent,
+  getStudents,
+  updateStudent,
+  deleteStudent,
+} from "../../services/studentService";
 import { getClasses } from "../../services/classService";
 
 function Students() {
   const [students, setStudents] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [search, setSearch] = useState("");
+  const [classFilter, setClassFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -58,6 +66,7 @@ function Students() {
       email: "",
       classId: "",
     });
+    setEditingId(null);
   };
 
   const handleSubmit = async (e) => {
@@ -66,16 +75,58 @@ function Students() {
     setMessage("");
 
     try {
-      await createStudent(formData);
-      setMessage("Student added successfully ✅");
+      if (editingId) {
+        await updateStudent(editingId, formData);
+        setMessage("Student updated successfully ✅");
+      } else {
+        await createStudent(formData);
+        setMessage("Student added successfully ✅");
+      }
+
       resetForm();
       loadStudents();
     } catch (error) {
-      setMessage(error.response?.data?.message || "Failed to add student ❌");
+      setMessage(error.response?.data?.message || "Failed to save student ❌");
     } finally {
       setLoading(false);
     }
   };
+
+  const handleEdit = (student) => {
+    setEditingId(student._id);
+    setFormData({
+      fullName: student.fullName,
+      rollNumber: student.rollNumber,
+      gender: student.gender,
+      phone: student.phone || "",
+      email: student.email || "",
+      classId: student.class?._id || "",
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm("Are you sure you want to delete this student?")) return;
+
+    try {
+      await deleteStudent(id);
+      setMessage("Student deleted successfully ✅");
+      loadStudents();
+    } catch {
+      setMessage("Failed to delete student ❌");
+    }
+  };
+
+  const filteredStudents = students.filter((student) => {
+    const matchesSearch = `${student.fullName} ${student.rollNumber} ${student.email || ""}`
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesClass = classFilter
+      ? student.class?._id === classFilter
+      : true;
+
+    return matchesSearch && matchesClass;
+  });
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -101,7 +152,9 @@ function Students() {
           </div>
 
           <div className="mt-8 rounded-xl bg-white p-6 shadow">
-            <h2 className="text-xl font-bold">Add New Student</h2>
+            <h2 className="text-xl font-bold">
+              {editingId ? "Edit Student" : "Add New Student"}
+            </h2>
 
             {message && (
               <p className="mt-4 rounded-lg bg-blue-50 p-3 text-blue-700">
@@ -177,23 +230,61 @@ function Students() {
 
               <button
                 disabled={loading}
-                className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 disabled:bg-blue-300 md:col-span-3"
+                className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 disabled:bg-blue-300 md:col-span-2"
               >
-                {loading ? "Saving..." : "Add Student"}
+                {loading
+                  ? "Saving..."
+                  : editingId
+                  ? "Update Student"
+                  : "Add Student"}
               </button>
+
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="rounded-lg border px-6 py-3"
+                >
+                  Cancel Edit
+                </button>
+              )}
             </form>
           </div>
 
           <div className="mt-8 rounded-xl bg-white p-6 shadow">
-            <h2 className="text-xl font-bold">Student List</h2>
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-xl font-bold">Student List</h2>
+
+              <div className="flex gap-3">
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search student..."
+                  className="w-64 rounded-lg border px-4 py-2 outline-none focus:border-blue-600"
+                />
+
+                <select
+                  value={classFilter}
+                  onChange={(e) => setClassFilter(e.target.value)}
+                  className="rounded-lg border px-4 py-2 outline-none focus:border-blue-600"
+                >
+                  <option value="">All Classes</option>
+                  {classes.map((item) => (
+                    <option key={item._id} value={item._id}>
+                      {item.name} - {item.section}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
 
             <div className="mt-4 space-y-3">
-              {students.length === 0 ? (
+              {filteredStudents.length === 0 ? (
                 <p className="rounded-lg border border-dashed p-6 text-center text-gray-500">
-                  No students added yet.
+                  No students found.
                 </p>
               ) : (
-                students.map((student) => (
+                filteredStudents.map((student) => (
                   <div
                     key={student._id}
                     className="flex items-center justify-between rounded-lg border p-4"
@@ -204,10 +295,26 @@ function Students() {
                         Roll: {student.rollNumber} • {student.gender} •{" "}
                         {student.class?.name || "No Class"}
                       </p>
+                      <p className="text-sm text-gray-500">
+                        {student.phone || "No phone"} •{" "}
+                        {student.email || "No email"}
+                      </p>
                     </div>
 
-                    <div className="text-sm text-gray-500">
-                      {student.phone || "No phone"}
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => handleEdit(student)}
+                        className="rounded-lg bg-yellow-500 px-4 py-2 text-white"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(student._id)}
+                        className="rounded-lg bg-red-600 px-4 py-2 text-white"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </div>
                 ))
