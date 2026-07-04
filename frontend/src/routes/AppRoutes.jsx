@@ -8,7 +8,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import Students from "../pages/admin/Students";
 import Teachers from "../pages/admin/Teachers";
 import Classes from "../pages/admin/Classes";
-
+import StudentDetails from "../pages/admin/StudentDetails";
 import { useAuth } from "../context/AuthContext";
 
 function ProtectedRoute({ children }) {
@@ -61,6 +61,24 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+<Route
+  path="/admin/students/:id"
+  element={
+    <ProtectedRoute>
+      <StudentDetails />
+    </ProtectedRoute>
+  }
+/>
+
+
+
+
+
+
+
+
+
 
         <Route
           path="/admin/teachers"

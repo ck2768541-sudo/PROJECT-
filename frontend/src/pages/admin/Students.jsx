@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../../components/layout/Sidebar";
 import Topbar from "../../components/layout/Topbar";
+import { Link } from "react-router-dom";
 import {
   createStudent,
   getStudents,
@@ -302,6 +303,20 @@ function Students() {
                     </div>
 
                     <div className="flex gap-3">
+
+
+
+
+                   <Link
+  to={`/admin/students/${student._id}`}
+  className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+>
+  View
+</Link>   
+
+                    
+                   
+  
                       <button
                         onClick={() => handleEdit(student)}
                         className="rounded-lg bg-yellow-500 px-4 py-2 text-white"

@@ -24,6 +24,11 @@ export const getStudents = async () => {
   return response.data;
 };
 
+export const getStudentById = async (id) => {
+  const response = await API.get(`/students/${id}`, getAuthHeader());
+  return response.data;
+};
+
 export const updateStudent = async (id, studentData) => {
   const response = await API.put(`/students/${id}`, studentData, getAuthHeader());
   return response.data;
