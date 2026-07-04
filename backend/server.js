@@ -8,6 +8,7 @@ dotenv.config();
 const authRoutes = require("./routes/authRoutes");
 const instituteRoutes = require("./routes/instituteRoutes");
 const classRoutes = require("./routes/classRoutes");
+const studentRoutes = require("./routes/studentRoutes");
 const app = express();
 
 connectDB();
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/institutes", instituteRoutes);
 app.use("/api/classes", classRoutes);
+app.use("/api/students", studentRoutes);
 
 const PORT = process.env.PORT || 5000;
 
