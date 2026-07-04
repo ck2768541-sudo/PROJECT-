@@ -1,38 +1,27 @@
-# 🚀 Upsthiti Progress Tracker
+# Upsthiti Project Progress
 
-## Project
-Upsthiti - Enterprise Attendance & Institute Management SaaS
+## Current Status
 
-## Current Milestone
-Milestone 3 - Authentication
+Phase: 3  
+Step: 30/30  
+Overall Progress: 45%
 
-## Current Step
-Step 4 - User Model
+## Completed
 
-## Completed Milestones
+- Foundation setup
+- Authentication
+- Institute foundation
+- Class model
+- Class API
+- Class frontend UI
+- Add class
+- Load classes from database
+- Edit class
+- Delete class
+- Search class
+- Dashboard class count
+- Git commit milestone
 
-### ✅ Milestone 1
-- React Setup
-- Backend Setup
-- Tailwind Setup
-- Git Setup
-- GitHub Connected
-- Folder Structure
+## Next Phase
 
-### ✅ Milestone 2
-- Landing Page
-- Navbar
-- Hero Section
-- Features
-- Pricing
-- Footer
-- Login UI
-- Signup UI
-
-### 🔄 Milestone 3
-- Backend Folder Structure
-- database.js
-- .env
-
-## Next Step
-Create User Model
+Phase 4 - Student Management
