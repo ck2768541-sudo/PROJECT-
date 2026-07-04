@@ -22,6 +22,18 @@ function Sidebar() {
           Classes
         </Link>
 
+<Link
+  to="/admin/departments"
+  className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-blue-600 hover:text-white"
+>
+  🏢 Departments
+</Link>
+
+
+
+
+
+
         <Link to="/admin/attendance" className="block px-4 py-3 hover:bg-gray-800 rounded-lg">
           Attendance
         </Link>

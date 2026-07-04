@@ -11,7 +11,7 @@ import Classes from "../pages/admin/Classes";
 import StudentDetails from "../pages/admin/StudentDetails";
 import TeacherDetails from "../pages/admin/TeacherDetails";
 import { useAuth } from "../context/AuthContext";
-
+import Departments from "../pages/admin/Departments";
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
 
@@ -54,6 +54,17 @@ function AppRoutes() {
           }
         />
 
+
+
+
+
+
+
+
+
+
+
+
         <Route
           path="/admin/students"
           element={
@@ -89,6 +100,20 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+
+
+<Route
+  path="/admin/departments"
+  element={
+    <ProtectedRoute>
+      <Departments />
+    </ProtectedRoute>
+  }
+/>
+
+
+
 
 
 

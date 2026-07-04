@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/database");
 const teacherRoutes = require("./routes/teacherRoutes");
-
+const departmentRoutes = require("./routes/departmentRoutes");
 dotenv.config();
 
 const authRoutes = require("./routes/authRoutes");
@@ -26,7 +26,7 @@ app.use("/api/institutes", instituteRoutes);
 app.use("/api/classes", classRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
-
+app.use("/api/departments", departmentRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
