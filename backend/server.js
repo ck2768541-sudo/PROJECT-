@@ -12,6 +12,8 @@ const instituteRoutes = require("./routes/instituteRoutes");
 const classRoutes = require("./routes/classRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
+const reportRoutes = require("./routes/reportRoutes");
+const reportAnalyticsRoutes = require("./routes/reportAnalyticsRoutes");
 const app = express();
 
 connectDB();
@@ -32,6 +34,9 @@ app.use("/api/departments", departmentRoutes);
 
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/report-analytics", reportAnalyticsRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

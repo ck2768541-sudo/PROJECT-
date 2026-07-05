@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <aside className="min-h-screen w-64 bg-gray-900 p-6 text-white">
+<aside className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto bg-gray-900 p-6 text-white">
       <h1 className="text-2xl font-bold">Upsthiti</h1>
 
       <nav className="mt-10 space-y-4">

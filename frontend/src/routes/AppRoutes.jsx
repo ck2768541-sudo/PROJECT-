@@ -6,23 +6,27 @@ import Signup from "../pages/auth/Signup";
 
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Students from "../pages/admin/Students";
-import Teachers from "../pages/admin/Teachers";
-import Classes from "../pages/admin/Classes";
 import StudentDetails from "../pages/admin/StudentDetails";
+
+import Teachers from "../pages/admin/Teachers";
 import TeacherDetails from "../pages/admin/TeacherDetails";
-import { useAuth } from "../context/AuthContext";
+
+import Classes from "../pages/admin/Classes";
 import Departments from "../pages/admin/Departments";
+
 import Subjects from "../pages/admin/Subjects";
 import SubjectDetails from "../pages/admin/SubjectDetails";
-import Attendance from "../pages/admin/Attendance";
 
+import Attendance from "../pages/admin/Attendance";
 import DailyAttendance from "../pages/admin/DailyAttendance";
 import MonthlyAttendance from "../pages/admin/MonthlyAttendance";
-
 import AttendanceHistory from "../pages/admin/AttendanceHistory";
 import StudentAttendanceReport from "../pages/admin/StudentAttendanceReport";
 import SubjectAttendanceReport from "../pages/admin/SubjectAttendanceReport";
 
+import Reports from "../pages/admin/Reports";
+
+import { useAuth } from "../context/AuthContext";
 
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
@@ -34,19 +38,6 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-function ComingSoon({ title }) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold">{title}</h1>
-        <p className="mt-3 text-gray-600">
-          This module is under development.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function AppRoutes() {
   return (
     <BrowserRouter>
@@ -56,7 +47,7 @@ function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Protected Routes */}
+        {/* Admin Dashboard */}
         <Route
           path="/admin"
           element={
@@ -66,17 +57,7 @@ function AppRoutes() {
           }
         />
 
-
-
-
-
-
-
-
-
-
-
-
+        {/* Students */}
         <Route
           path="/admin/students"
           element={
@@ -86,24 +67,16 @@ function AppRoutes() {
           }
         />
 
-<Route
-  path="/admin/students/:id"
-  element={
-    <ProtectedRoute>
-      <StudentDetails />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/admin/students/:id"
+          element={
+            <ProtectedRoute>
+              <StudentDetails />
+            </ProtectedRoute>
+          }
+        />
 
-
-
-
-
-
-
-
-
-
+        {/* Teachers */}
         <Route
           path="/admin/teachers"
           element={
@@ -113,38 +86,16 @@ function AppRoutes() {
           }
         />
 
+        <Route
+          path="/admin/teachers/:id"
+          element={
+            <ProtectedRoute>
+              <TeacherDetails />
+            </ProtectedRoute>
+          }
+        />
 
-
-<Route
-  path="/admin/departments"
-  element={
-    <ProtectedRoute>
-      <Departments />
-    </ProtectedRoute>
-  }
-/>
-
-<Route path="/admin/subjects" element={<Subjects />} />
-<Route path="/admin/subjects/:id" element={<SubjectDetails />} />
-<Route path="/admin/attendance" element={<Attendance />} />
-<Route path="/admin/attendance/daily" element={<DailyAttendance />} />
-<Route path="/admin/attendance/monthly" element={<MonthlyAttendance />} />
-
-
-
-
-<Route
-  path="/admin/teachers/:id"
-  element={
-    <ProtectedRoute>
-      <TeacherDetails />
-    </ProtectedRoute>
-  }
-/>
-
-
-
-
+        {/* Classes */}
         <Route
           path="/admin/classes"
           element={
@@ -154,36 +105,96 @@ function AppRoutes() {
           }
         />
 
+        {/* Departments */}
         <Route
-          path="/admin/attendance"
+          path="/admin/departments"
           element={
             <ProtectedRoute>
-              <ComingSoon title="Attendance" />
+              <Departments />
             </ProtectedRoute>
           }
         />
 
-<Route path="/admin/attendance/history" element={<AttendanceHistory />} />
-<Route
-  path="/admin/attendance/student-report"
-  element={<StudentAttendanceReport />}
-/>
-<Route
-  path="/admin/attendance/subject-report"
-  element={<SubjectAttendanceReport />}
-/>
+        {/* Subjects */}
+        <Route
+          path="/admin/subjects"
+          element={
+            <ProtectedRoute>
+              <Subjects />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/subjects/:id"
+          element={
+            <ProtectedRoute>
+              <SubjectDetails />
+            </ProtectedRoute>
+          }
+        />
 
+        {/* Attendance */}
+        <Route
+          path="/admin/attendance"
+          element={
+            <ProtectedRoute>
+              <Attendance />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/attendance/daily"
+          element={
+            <ProtectedRoute>
+              <DailyAttendance />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/attendance/monthly"
+          element={
+            <ProtectedRoute>
+              <MonthlyAttendance />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/attendance/history"
+          element={
+            <ProtectedRoute>
+              <AttendanceHistory />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/attendance/student-report"
+          element={
+            <ProtectedRoute>
+              <StudentAttendanceReport />
+            </ProtectedRoute>
+          }
+        />
 
+        <Route
+          path="/admin/attendance/subject-report"
+          element={
+            <ProtectedRoute>
+              <SubjectAttendanceReport />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Reports */}
         <Route
           path="/admin/reports"
           element={
             <ProtectedRoute>
-              <ComingSoon title="Reports" />
+              <Reports />
             </ProtectedRoute>
           }
         />
