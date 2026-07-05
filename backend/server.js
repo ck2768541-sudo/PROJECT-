@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/database");
 const teacherRoutes = require("./routes/teacherRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
+const subjectRoutes = require("./routes/subjectRoutes");
 dotenv.config();
 
 const authRoutes = require("./routes/authRoutes");
@@ -27,6 +28,8 @@ app.use("/api/classes", classRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/departments", departmentRoutes);
+
+app.use("/api/subjects", subjectRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

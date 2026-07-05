@@ -12,6 +12,8 @@ import StudentDetails from "../pages/admin/StudentDetails";
 import TeacherDetails from "../pages/admin/TeacherDetails";
 import { useAuth } from "../context/AuthContext";
 import Departments from "../pages/admin/Departments";
+import Subjects from "../pages/admin/Subjects";
+import SubjectDetails from "../pages/admin/SubjectDetails";
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
 
@@ -112,7 +114,8 @@ function AppRoutes() {
   }
 />
 
-
+<Route path="/admin/subjects" element={<Subjects />} />
+<Route path="/admin/subjects/:id" element={<SubjectDetails />} />
 
 
 
