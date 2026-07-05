@@ -11,6 +11,7 @@ const authRoutes = require("./routes/authRoutes");
 const instituteRoutes = require("./routes/instituteRoutes");
 const classRoutes = require("./routes/classRoutes");
 const studentRoutes = require("./routes/studentRoutes");
+const attendanceRoutes = require("./routes/attendanceRoutes");
 const app = express();
 
 connectDB();
@@ -30,6 +31,7 @@ app.use("/api/teachers", teacherRoutes);
 app.use("/api/departments", departmentRoutes);
 
 app.use("/api/subjects", subjectRoutes);
+app.use("/api/attendance", attendanceRoutes);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

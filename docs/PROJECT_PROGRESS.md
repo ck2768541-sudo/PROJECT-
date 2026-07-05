@@ -1,6 +1,7 @@
 # 🚀 Upsthiti Progress Tracker
 
 ## Project
+
 Upsthiti – Enterprise Multi-Institute Attendance & Institute Management SaaS
 
 ---
@@ -9,17 +10,18 @@ Upsthiti – Enterprise Multi-Institute Attendance & Institute Management SaaS
 
 ## ✅ Current Milestone
 
-Phase: 5 (Completed)
+Phase: 7 (Completed)
 
 Current Step: 30 / 30
 
-Overall Progress: 60%
+Overall Progress: 80%
 
 ---
 
 # ✅ Completed Phases
 
 ## Phase 1 – Project Foundation
+
 - Project Setup
 - Folder Structure
 - Backend Setup
@@ -28,11 +30,12 @@ Overall Progress: 60%
 - JWT Setup
 - Authentication Structure
 
-Status: ✅ Completed
+**Status:** ✅ Completed
 
 ---
 
 ## Phase 2 – Authentication
+
 - Signup
 - Login
 - JWT Authentication
@@ -41,11 +44,12 @@ Status: ✅ Completed
 - Super Admin Login
 - Institute Admin Login
 
-Status: ✅ Completed
+**Status:** ✅ Completed
 
 ---
 
 ## Phase 3 – Class Management
+
 - Create Class
 - Update Class
 - Delete Class
@@ -54,11 +58,12 @@ Status: ✅ Completed
 - Dashboard Integration
 - MongoDB Integration
 
-Status: ✅ Completed
+**Status:** ✅ Completed
 
 ---
 
 ## Phase 4 – Student Management
+
 - Add Student
 - Edit Student
 - Delete Student
@@ -68,11 +73,12 @@ Status: ✅ Completed
 - Student CRUD API
 - MongoDB Integration
 
-Status: ✅ Completed
+**Status:** ✅ Completed
 
 ---
 
 ## Phase 5 – Teacher Management
+
 - Add Teacher
 - Edit Teacher
 - Delete Teacher
@@ -87,34 +93,53 @@ Status: ✅ Completed
 - Testing
 - Git Push
 
-Status: ✅ Completed
+**Status:** ✅ Completed
 
 ---
 
-# 📅 Upcoming Phases
-
 ## Phase 6 – Subject & Department Management
-- Subject CRUD
+
 - Department CRUD
+- Subject CRUD
 - Subject Assignment
 - Department Assignment
-- Subject Dashboard
+- Teacher → Subject Assignment
+- Class → Subject Assignment
+- Semester Support
+- Credits System
+- Subject Details
+- Dashboard
+- Testing
+- Git Push
 
-Status: 🔜 Next
+**Status:** ✅ Completed
 
 ---
 
 ## Phase 7 – Attendance Management
+
 - Mark Attendance
 - Daily Attendance
 - Monthly Attendance
 - Bulk Attendance
 - Teacher Attendance
 - Student Attendance
+- Attendance History
+- Student Report
+- Subject Report
+- Edit Attendance
+- Delete Attendance
+- Testing
+- Git Push
+
+**Status:** ✅ Completed
 
 ---
 
+# 📅 Upcoming Phases
+
 ## Phase 8 – Reports
+
 - Student Report
 - Teacher Report
 - Attendance Report
@@ -122,9 +147,12 @@ Status: 🔜 Next
 - PDF Export
 - Analytics
 
+**Status:** 🔜 Next
+
 ---
 
 ## Phase 9 – Dashboard Analytics
+
 - Charts
 - Graphs
 - Institute Analytics
@@ -133,9 +161,9 @@ Status: 🔜 Next
 ---
 
 ## Phase 10 – Multi Institute SaaS
+
 - Super Admin
 - Multiple Institutes
-- Institute Subscription
 - Institute Settings
 - Multi-Tenant Database
 - Roles & Permissions
@@ -143,6 +171,7 @@ Status: 🔜 Next
 ---
 
 ## Phase 11 – Deployment
+
 - Backend Deployment
 - Frontend Deployment
 - Domain Setup
@@ -153,6 +182,7 @@ Status: 🔜 Next
 ---
 
 ## Phase 12 – Production Launch 🚀
+
 - Final Testing
 - Security Audit
 - Performance Optimization
@@ -166,17 +196,17 @@ Status: 🔜 Next
 
 Overall Project Progress
 
-████████████░░░░░░░░
+████████████████░░░░
 
-≈ 60% Completed
+≈ 80% Completed
 
 ---
 
 # Next Phase
 
-Phase 6
+## 🚀 Phase 8
 
-Subject & Department Management
+Reports Module
 
 Step 1 / 30
 

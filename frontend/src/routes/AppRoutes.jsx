@@ -14,6 +14,16 @@ import { useAuth } from "../context/AuthContext";
 import Departments from "../pages/admin/Departments";
 import Subjects from "../pages/admin/Subjects";
 import SubjectDetails from "../pages/admin/SubjectDetails";
+import Attendance from "../pages/admin/Attendance";
+
+import DailyAttendance from "../pages/admin/DailyAttendance";
+import MonthlyAttendance from "../pages/admin/MonthlyAttendance";
+
+import AttendanceHistory from "../pages/admin/AttendanceHistory";
+import StudentAttendanceReport from "../pages/admin/StudentAttendanceReport";
+import SubjectAttendanceReport from "../pages/admin/SubjectAttendanceReport";
+
+
 function ProtectedRoute({ children }) {
   const { user } = useAuth();
 
@@ -116,6 +126,9 @@ function AppRoutes() {
 
 <Route path="/admin/subjects" element={<Subjects />} />
 <Route path="/admin/subjects/:id" element={<SubjectDetails />} />
+<Route path="/admin/attendance" element={<Attendance />} />
+<Route path="/admin/attendance/daily" element={<DailyAttendance />} />
+<Route path="/admin/attendance/monthly" element={<MonthlyAttendance />} />
 
 
 
@@ -149,6 +162,22 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+<Route path="/admin/attendance/history" element={<AttendanceHistory />} />
+<Route
+  path="/admin/attendance/student-report"
+  element={<StudentAttendanceReport />}
+/>
+<Route
+  path="/admin/attendance/subject-report"
+  element={<SubjectAttendanceReport />}
+/>
+
+
+
+
+
+
 
         <Route
           path="/admin/reports"

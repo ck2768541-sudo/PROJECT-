@@ -271,19 +271,27 @@ function Subjects() {
                 ))}
               </select>
 
-              <select
-                name="teacher"
-                value={formData.teacher}
-                onChange={handleChange}
-                className="rounded border px-4 py-2 outline-none"
-              >
-                <option value="">Assign Teacher</option>
-                {teachers.map((teacher) => (
-                  <option key={teacher._id} value={teacher._id}>
-                    {teacher.name}
-                  </option>
-                ))}
-              </select>
+<select
+  name="teacher"
+  value={formData.teacher}
+  onChange={handleChange}
+  className="rounded border px-4 py-2 outline-none"
+>
+  <option value="">Assign Teacher</option>
+
+  {teachers.map((teacher) => (
+    <option key={teacher._id} value={teacher._id}>
+      {teacher.name ||
+        teacher.fullName ||
+        teacher.teacherName ||
+        "Unnamed Teacher"}
+    </option>
+  ))}
+</select>
+
+
+
+  
 
               <select
                 name="class"

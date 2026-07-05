@@ -56,6 +56,49 @@ function Sidebar() {
           Attendance
         </Link>
 
+<Link
+  to="/admin/attendance/history"
+  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
+>
+  Attendance History
+</Link>
+
+<Link
+  to="/admin/attendance/student-report"
+  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
+>
+  Student Report
+</Link>
+
+<Link
+  to="/admin/attendance/subject-report"
+  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
+>
+  Subject Report
+</Link>
+
+
+
+
+
+
+<Link
+  to="/admin/attendance/daily"
+  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
+>
+  Daily Attendance
+</Link>
+
+<Link
+  to="/admin/attendance/monthly"
+  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
+>
+  Monthly Attendance
+</Link>
+
+
+
+
         <Link
           to="/admin/reports"
           className="block rounded-lg px-4 py-3 hover:bg-gray-800"
