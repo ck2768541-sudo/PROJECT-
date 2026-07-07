@@ -14,6 +14,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const reportAnalyticsRoutes = require("./routes/reportAnalyticsRoutes");
+const dashboardAnalyticsRoutes = require("./routes/dashboardAnalyticsRoutes");
 const app = express();
 
 connectDB();
@@ -35,6 +36,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/dashboard-analytics", dashboardAnalyticsRoutes);
 app.use("/api/report-analytics", reportAnalyticsRoutes);
 
 const PORT = process.env.PORT || 5000;
