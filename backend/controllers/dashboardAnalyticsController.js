@@ -7,11 +7,25 @@ const Attendance = require("../models/Attendance");
 
 exports.getDashboardAnalytics = async (req, res) => {
   try {
-    const totalStudents = await Student.countDocuments();
-    const totalTeachers = await Teacher.countDocuments();
-    const totalClasses = await Class.countDocuments();
-    const totalDepartments = await Department.countDocuments();
-    const totalSubjects = await Subject.countDocuments();
+const totalStudents = await Student.countDocuments({
+  isActive: true,
+});
+
+const totalTeachers = await Teacher.countDocuments({
+  isActive: true,
+});
+
+const totalClasses = await Class.countDocuments({
+  isActive: true,
+});
+
+const totalDepartments = await Department.countDocuments({
+  isActive: true,
+});
+
+const totalSubjects = await Subject.countDocuments({
+  status: "Active",
+});
 
     const attendance = await Attendance.find();
 

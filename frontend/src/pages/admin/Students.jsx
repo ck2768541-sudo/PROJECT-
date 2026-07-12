@@ -20,13 +20,14 @@ function Students() {
   const [editingId, setEditingId] = useState(null);
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    rollNumber: "",
-    gender: "",
-    phone: "",
-    email: "",
-    classId: "",
-  });
+  fullName: "",
+  rollNumber: "",
+  gender: "",
+  phone: "",
+  email: "",
+  password: "",
+  classId: "",
+});
 
   const loadStudents = async () => {
     try {
@@ -59,14 +60,15 @@ function Students() {
   };
 
   const resetForm = () => {
-    setFormData({
-      fullName: "",
-      rollNumber: "",
-      gender: "",
-      phone: "",
-      email: "",
-      classId: "",
-    });
+   setFormData({
+  fullName: "",
+  rollNumber: "",
+  gender: "",
+  phone: "",
+  email: "",
+  password: "",
+  classId: "",
+});
     setEditingId(null);
   };
 
@@ -96,13 +98,14 @@ function Students() {
   const handleEdit = (student) => {
     setEditingId(student._id);
     setFormData({
-      fullName: student.fullName,
-      rollNumber: student.rollNumber,
-      gender: student.gender,
-      phone: student.phone || "",
-      email: student.email || "",
-      classId: student.class?._id || "",
-    });
+  fullName: student.fullName,
+  rollNumber: student.rollNumber,
+  gender: student.gender,
+  phone: student.phone || "",
+  email: student.email || "",
+  password: "",
+  classId: student.class?._id || "",
+});
   };
 
   const handleDelete = async (id) => {
@@ -213,6 +216,22 @@ function Students() {
                 placeholder="Email"
                 className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
               />
+
+
+<input
+  type="password"
+  name="password"
+  value={formData.password}
+  onChange={handleChange}
+  placeholder="Password"
+  className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+ required={!editingId}
+/>
+
+
+
+
+
 
               <select
                 name="classId"

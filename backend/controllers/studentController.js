@@ -1,8 +1,19 @@
 const Student = require("../models/Student");
+const bcrypt = require("bcryptjs");
+const User = require("../models/User");
+const Attendance = require("../models/Attendance");
 
 const createStudent = async (req, res) => {
   try {
-    const { fullName, rollNumber, gender, phone, email, classId } = req.body;
+    const {
+      fullName,
+      rollNumber,
+      gender,
+      phone,
+      email,
+      classId,
+      password,
+    } = req.body;
 
     if (!req.user || !req.user.institute) {
       return res.status(400).json({
@@ -11,10 +22,18 @@ const createStudent = async (req, res) => {
       });
     }
 
-    if (!fullName || !rollNumber || !gender || !classId) {
+    if (
+      !fullName ||
+      !rollNumber ||
+      !gender ||
+      !phone ||
+      !email ||
+      !classId ||
+      !password
+    ) {
       return res.status(400).json({
         success: false,
-        message: "Full name, roll number, gender and class are required.",
+        message: "All fields are required",
       });
     }
 
@@ -32,20 +51,37 @@ const createStudent = async (req, res) => {
       });
     }
 
-    if (email) {
-      const duplicateEmail = await Student.findOne({
-        institute: req.user.institute,
-        email,
-        isActive: true,
-      });
+    const duplicateStudentEmail = await Student.findOne({
+      institute: req.user.institute,
+      email,
+      isActive: true,
+    });
 
-      if (duplicateEmail) {
-        return res.status(409).json({
-          success: false,
-          message: "Email already exists.",
-        });
-      }
+    if (duplicateStudentEmail) {
+      return res.status(409).json({
+        success: false,
+        message: "Student email already exists.",
+      });
     }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "Login email already exists.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      fullName,
+      email,
+      password: hashedPassword,
+      role: "student",
+      institute: req.user.institute,
+    });
 
     const student = await Student.create({
       institute: req.user.institute,
@@ -55,11 +91,12 @@ const createStudent = async (req, res) => {
       gender,
       phone,
       email,
+      user: user._id,
     });
 
     res.status(201).json({
       success: true,
-      message: "Student created successfully",
+      message: "Student created successfully with login account",
       data: student,
     });
   } catch (error) {
@@ -74,6 +111,7 @@ const getStudents = async (req, res) => {
       isActive: true,
     })
       .populate("class", "name section department academicYear")
+      .populate("user", "fullName email role isActive")
       .sort({ createdAt: -1 });
 
     res.status(200).json({ success: true, data: students });
@@ -88,7 +126,9 @@ const getStudentById = async (req, res) => {
       _id: req.params.id,
       institute: req.user.institute,
       isActive: true,
-    }).populate("class", "name section department academicYear");
+    })
+      .populate("class", "name section department academicYear")
+      .populate("user", "fullName email role isActive");
 
     if (!student) {
       return res.status(404).json({
@@ -105,7 +145,20 @@ const getStudentById = async (req, res) => {
 
 const updateStudent = async (req, res) => {
   try {
-    const { classId, rollNumber, email, ...studentData } = req.body;
+    const { classId, rollNumber, email, password, ...studentData } = req.body;
+
+    const student = await Student.findOne({
+      _id: req.params.id,
+      institute: req.user.institute,
+      isActive: true,
+    });
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
 
     const duplicateRoll = await Student.findOne({
       _id: { $ne: req.params.id },
@@ -123,17 +176,29 @@ const updateStudent = async (req, res) => {
     }
 
     if (email) {
-      const duplicateEmail = await Student.findOne({
+      const duplicateStudentEmail = await Student.findOne({
         _id: { $ne: req.params.id },
         institute: req.user.institute,
         email,
         isActive: true,
       });
 
-      if (duplicateEmail) {
+      if (duplicateStudentEmail) {
         return res.status(409).json({
           success: false,
-          message: "Email already exists.",
+          message: "Student email already exists.",
+        });
+      }
+
+      const existingUser = await User.findOne({
+        _id: { $ne: student.user },
+        email,
+      });
+
+      if (existingUser) {
+        return res.status(409).json({
+          success: false,
+          message: "Login email already exists.",
         });
       }
     }
@@ -152,11 +217,17 @@ const updateStudent = async (req, res) => {
       { new: true }
     ).populate("class", "name section department academicYear");
 
-    if (!updatedStudent) {
-      return res.status(404).json({
-        success: false,
-        message: "Student not found",
-      });
+    if (student.user) {
+      const userUpdateData = {
+        fullName: studentData.fullName || updatedStudent.fullName,
+        email: email || updatedStudent.email,
+      };
+
+      if (password) {
+        userUpdateData.password = await bcrypt.hash(password, 10);
+      }
+
+      await User.findByIdAndUpdate(student.user, userUpdateData);
     }
 
     res.status(200).json({
@@ -187,6 +258,12 @@ const deleteStudent = async (req, res) => {
       });
     }
 
+    if (deletedStudent.user) {
+      await User.findByIdAndUpdate(deletedStudent.user, {
+        isActive: false,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Student deleted successfully",
@@ -209,6 +286,161 @@ const getStudentCount = async (req, res) => {
   }
 };
 
+const getMyStudentDashboard = async (req, res) => {
+  try {
+    const student = await Student.findOne({
+      user: req.user._id,
+      institute: req.user.institute,
+      isActive: true,
+    })
+      .populate("class", "name section department academicYear")
+      .populate("user", "fullName email role");
+
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student profile not found",
+      });
+    }
+
+    const attendanceRecords = await Attendance.find({
+      student: student._id,
+    })
+      .populate("subject", "name code")
+      .populate("class", "name section")
+      .sort({ date: -1 });
+
+    const totalClasses = attendanceRecords.length;
+
+    const presentCount = attendanceRecords.filter(
+      (item) => item.status === "Present"
+    ).length;
+
+    const absentCount = attendanceRecords.filter(
+      (item) => item.status === "Absent"
+    ).length;
+
+    const lateCount = attendanceRecords.filter(
+      (item) => item.status === "Late"
+    ).length;
+
+
+const subjectMap = {};
+
+attendanceRecords.forEach((record) => {
+  const subjectId = record.subject?._id?.toString();
+
+  if (!subjectId) return;
+
+  if (!subjectMap[subjectId]) {
+    subjectMap[subjectId] = {
+      subjectName: record.subject?.name || "Unknown Subject",
+      total: 0,
+      present: 0,
+      absent: 0,
+      late: 0,
+    };
+  }
+
+  subjectMap[subjectId].total += 1;
+
+  if (record.status === "Present") subjectMap[subjectId].present += 1;
+  if (record.status === "Absent") subjectMap[subjectId].absent += 1;
+  if (record.status === "Late") subjectMap[subjectId].late += 1;
+});
+
+const subjectWiseAttendance = Object.values(subjectMap).map((item) => ({
+  ...item,
+  percentage:
+    item.total > 0 ? Math.round((item.present / item.total) * 100) : 0,
+}));
+const monthlyMap = {};
+
+attendanceRecords.forEach((record) => {
+  const month = record.date?.slice(0, 7);
+
+  if (!month) return;
+
+  if (!monthlyMap[month]) {
+    monthlyMap[month] = {
+      month,
+      total: 0,
+      present: 0,
+      absent: 0,
+      late: 0,
+    };
+  }
+
+  monthlyMap[month].total += 1;
+
+  if (record.status === "Present") monthlyMap[month].present += 1;
+  if (record.status === "Absent") monthlyMap[month].absent += 1;
+  if (record.status === "Late") monthlyMap[month].late += 1;
+});
+
+const monthlyAttendance = Object.values(monthlyMap).map((item) => ({
+  ...item,
+  percentage:
+    item.total > 0 ? Math.round((item.present / item.total) * 100) : 0,
+}));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const attendancePercentage =
+      totalClasses > 0
+        ? Math.round((presentCount / totalClasses) * 100)
+        : 0;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        profile: student,
+        summary: {
+          totalClasses,
+          presentCount,
+          absentCount,
+          lateCount,
+          attendancePercentage,
+        },
+      subjectWiseAttendance,
+monthlyAttendance,
+attendanceHistory: attendanceRecords,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = {
   createStudent,
   getStudents,
@@ -216,4 +448,5 @@ module.exports = {
   updateStudent,
   deleteStudent,
   getStudentCount,
+  getMyStudentDashboard,
 };

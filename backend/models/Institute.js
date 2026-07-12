@@ -8,6 +8,8 @@ const instituteSchema = new mongoose.Schema(
       trim: true,
     },
 
+    
+
     type: {
       type: String,
       enum: ["school", "college", "coaching", "university", "training-center"],

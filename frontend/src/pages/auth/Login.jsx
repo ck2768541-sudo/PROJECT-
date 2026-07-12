@@ -19,20 +19,27 @@ function Login() {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
+  };const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  try {
+    const data = await loginUser(formData);
+    login(data.user, data.token);
 
-    try {
-      const data = await loginUser(formData);
-      login(data.user, data.token);
+    if (data.user.role === "institute-admin") {
       navigate("/admin");
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+    } else if (data.user.role === "teacher") {
+      navigate("/teacher/dashboard");
+    } else if (data.user.role === "student") {
+      navigate("/student/dashboard");
+    } else {
+      navigate("/");
     }
-  };
+  } catch (err) {
+    setError(err.response?.data?.message || "Login failed");
+  }
+};
 
   return (
     <section className="flex min-h-screen items-center justify-center bg-gray-50 px-6">
@@ -65,6 +72,14 @@ function Login() {
             onChange={handleChange}
             className="w-full rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
           />
+          <div className="text-right">
+  <Link
+    to="/forgot-password"
+    className="text-sm font-medium text-blue-600 hover:underline"
+  >
+    Forgot Password?
+  </Link>
+</div>
 
           <button className="w-full rounded-lg bg-blue-600 py-3 text-white hover:bg-blue-700">
             Login
@@ -72,10 +87,7 @@ function Login() {
         </form>
 
         <p className="mt-6 text-center text-gray-600">
-          Don&apos;t have an account?{" "}
-          <Link to="/signup" className="font-medium text-blue-600">
-            Sign up
-          </Link>
+       
         </p>
       </div>
     </section>

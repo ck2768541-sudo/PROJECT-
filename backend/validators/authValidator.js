@@ -1,20 +1,5 @@
 const { body, validationResult } = require("express-validator");
 
-const signupValidator = [
-  body("fullName")
-    .trim()
-    .notEmpty()
-    .withMessage("Full Name is required"),
-
-  body("email")
-    .isEmail()
-    .withMessage("Please enter a valid email"),
-
-  body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters"),
-];
-
 const loginValidator = [
   body("email")
     .isEmail()
@@ -39,7 +24,6 @@ const validateRequest = (req, res, next) => {
 };
 
 module.exports = {
-  signupValidator,
   loginValidator,
   validateRequest,
 };

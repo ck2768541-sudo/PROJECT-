@@ -2,8 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "../pages/public/Home";
 import Login from "../pages/auth/Login";
-import Signup from "../pages/auth/Signup";
-
+import ForgotPassword from "../pages/auth/ForgotPassword";
+import VerifyOtp from "../pages/auth/VerifyOtp";
+import ResetPassword from "../pages/auth/ResetPassword";
+import TeacherAttendance from "../pages/teacher/TeacherAttendance";
+import StudentDashboard from "../pages/student/StudentDashboard";
+import TeacherDashboard from "../pages/teacher/TeacherDashboard";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import Students from "../pages/admin/Students";
 import StudentDetails from "../pages/admin/StudentDetails";
@@ -28,10 +32,29 @@ import Reports from "../pages/admin/Reports";
 
 import { useAuth } from "../context/AuthContext";
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, allowedRoles }) {
   const { user } = useAuth();
 
   if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (
+    allowedRoles &&
+    !allowedRoles.includes(user.role)
+  ) {
+    if (user.role === "institute-admin") {
+      return <Navigate to="/admin" replace />;
+    }
+
+    if (user.role === "teacher") {
+      return <Navigate to="/teacher/dashboard" replace />;
+    }
+
+    if (user.role === "student") {
+      return <Navigate to="/student/dashboard" replace />;
+    }
+
     return <Navigate to="/login" replace />;
   }
 
@@ -45,13 +68,17 @@ function AppRoutes() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
+<Route path="/forgot-password" element={<ForgotPassword />} />
+<Route path="/verify-otp" element={<VerifyOtp />} />
+<Route
+  path="/reset-password"
+  element={<ResetPassword />}
+/>
         {/* Admin Dashboard */}
         <Route
           path="/admin"
           element={
-            <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["institute-admin"]}>
               <AdminDashboard />
             </ProtectedRoute>
           }
@@ -61,7 +88,7 @@ function AppRoutes() {
         <Route
           path="/admin/students"
           element={
-            <ProtectedRoute>
+         <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Students />
             </ProtectedRoute>
           }
@@ -70,7 +97,7 @@ function AppRoutes() {
         <Route
           path="/admin/students/:id"
           element={
-            <ProtectedRoute>
+         <ProtectedRoute allowedRoles={["institute-admin"]}>
               <StudentDetails />
             </ProtectedRoute>
           }
@@ -80,7 +107,7 @@ function AppRoutes() {
         <Route
           path="/admin/teachers"
           element={
-            <ProtectedRoute>
+         <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Teachers />
             </ProtectedRoute>
           }
@@ -89,7 +116,7 @@ function AppRoutes() {
         <Route
           path="/admin/teachers/:id"
           element={
-            <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["institute-admin"]}>
               <TeacherDetails />
             </ProtectedRoute>
           }
@@ -99,7 +126,7 @@ function AppRoutes() {
         <Route
           path="/admin/classes"
           element={
-            <ProtectedRoute>
+<ProtectedRoute allowedRoles={["institute-admin"]}>
               <Classes />
             </ProtectedRoute>
           }
@@ -109,7 +136,7 @@ function AppRoutes() {
         <Route
           path="/admin/departments"
           element={
-            <ProtectedRoute>
+         <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Departments />
             </ProtectedRoute>
           }
@@ -119,7 +146,7 @@ function AppRoutes() {
         <Route
           path="/admin/subjects"
           element={
-            <ProtectedRoute>
+        <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Subjects />
             </ProtectedRoute>
           }
@@ -128,7 +155,7 @@ function AppRoutes() {
         <Route
           path="/admin/subjects/:id"
           element={
-            <ProtectedRoute>
+       <ProtectedRoute allowedRoles={["institute-admin"]}>
               <SubjectDetails />
             </ProtectedRoute>
           }
@@ -138,7 +165,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance"
           element={
-            <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Attendance />
             </ProtectedRoute>
           }
@@ -147,7 +174,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance/daily"
           element={
-            <ProtectedRoute>
+<ProtectedRoute allowedRoles={["institute-admin"]}>
               <DailyAttendance />
             </ProtectedRoute>
           }
@@ -156,7 +183,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance/monthly"
           element={
-            <ProtectedRoute>
+        <ProtectedRoute allowedRoles={["institute-admin"]}>
               <MonthlyAttendance />
             </ProtectedRoute>
           }
@@ -165,7 +192,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance/history"
           element={
-            <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["institute-admin"]}>
               <AttendanceHistory />
             </ProtectedRoute>
           }
@@ -174,7 +201,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance/student-report"
           element={
-            <ProtectedRoute>
+          <ProtectedRoute allowedRoles={["institute-admin"]}>
               <StudentAttendanceReport />
             </ProtectedRoute>
           }
@@ -183,7 +210,7 @@ function AppRoutes() {
         <Route
           path="/admin/attendance/subject-report"
           element={
-            <ProtectedRoute>
+<ProtectedRoute allowedRoles={["institute-admin"]}>
               <SubjectAttendanceReport />
             </ProtectedRoute>
           }
@@ -193,12 +220,39 @@ function AppRoutes() {
         <Route
           path="/admin/reports"
           element={
-            <ProtectedRoute>
+           <ProtectedRoute allowedRoles={["institute-admin"]}>
               <Reports />
             </ProtectedRoute>
           }
         />
+        {/* Teacher Dashboard */}
 
+<Route
+  path="/teacher/dashboard"
+  element={
+    <ProtectedRoute allowedRoles={["teacher"]}>
+      <TeacherDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/teacher/attendance"
+  element={
+    <ProtectedRoute allowedRoles={["teacher"]}>
+      <TeacherAttendance />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/student/dashboard"
+  element={
+    <ProtectedRoute allowedRoles={["student"]}>
+      <StudentDashboard />
+    </ProtectedRoute>
+  }
+/>
         {/* 404 */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

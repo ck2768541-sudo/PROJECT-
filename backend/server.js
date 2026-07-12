@@ -2,19 +2,21 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/database");
-const teacherRoutes = require("./routes/teacherRoutes");
-const departmentRoutes = require("./routes/departmentRoutes");
-const subjectRoutes = require("./routes/subjectRoutes");
+
 dotenv.config();
 
 const authRoutes = require("./routes/authRoutes");
 const instituteRoutes = require("./routes/instituteRoutes");
 const classRoutes = require("./routes/classRoutes");
 const studentRoutes = require("./routes/studentRoutes");
+const teacherRoutes = require("./routes/teacherRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
+const subjectRoutes = require("./routes/subjectRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const reportAnalyticsRoutes = require("./routes/reportAnalyticsRoutes");
 const dashboardAnalyticsRoutes = require("./routes/dashboardAnalyticsRoutes");
+
 const app = express();
 
 connectDB();
@@ -32,7 +34,6 @@ app.use("/api/classes", classRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/teachers", teacherRoutes);
 app.use("/api/departments", departmentRoutes);
-
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/reports", reportRoutes);

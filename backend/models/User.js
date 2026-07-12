@@ -23,8 +23,11 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["super-admin", "institute-admin", "teacher", "student"],
-      default: "student",
+      enum: [
+        "institute-admin",
+        "teacher",
+        "student",
+      ],
     },
 
     institute: {
@@ -36,6 +39,22 @@ const userSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true,
+    },
+
+    // Forgot Password OTP
+    resetPasswordOtp: {
+      type: String,
+      default: null,
+    },
+
+    resetPasswordOtpExpires: {
+      type: Date,
+      default: null,
+    },
+
+    resetPasswordOtpVerified: {
+      type: Boolean,
+      default: false,
     },
   },
   {

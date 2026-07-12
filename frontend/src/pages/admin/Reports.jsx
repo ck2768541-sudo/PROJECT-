@@ -406,12 +406,11 @@ const handlePrintReport = () => {
                 onChange={handleChange}
                 className="rounded border px-4 py-2 outline-none"
               />
-
-              <div className="flex gap-3">
+<div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="rounded bg-blue-600 px-5 py-2 text-white"
+className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white"
                 >
                   Apply
                 </button>
@@ -419,7 +418,7 @@ const handlePrintReport = () => {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="rounded bg-gray-700 px-5 py-2 text-white"
+className="rounded-lg bg-gray-700 px-4 py-2 text-sm font-medium text-white"
                 >
                   Reset
                 </button>
@@ -428,7 +427,7 @@ const handlePrintReport = () => {
 <button
   type="button"
   onClick={handleExcelExport}
-  className="rounded bg-green-600 px-5 py-2 text-white"
+className="rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white"
 >
   Excel
 </button>
@@ -437,7 +436,7 @@ const handlePrintReport = () => {
 <button
   type="button"
   onClick={handlePDFExport}
-  className="rounded bg-red-600 px-5 py-2 text-white"
+className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white"
 >
   PDF
 </button>
@@ -448,7 +447,7 @@ const handlePrintReport = () => {
 <button
   type="button"
   onClick={handleStudentExcelExport}
-  className="rounded bg-purple-600 px-5 py-2 text-white"
+className="rounded-lg bg-purple-600 px-3 py-2 text-sm font-medium text-white"
 >
   Student Excel
 </button>
@@ -456,7 +455,7 @@ const handlePrintReport = () => {
 <button
   type="button"
   onClick={handleTeacherExcelExport}
-  className="rounded bg-orange-600 px-5 py-2 text-white"
+className="rounded-lg bg-orange-600 px-3 py-2 text-sm font-medium text-white"
 >
   Teacher Excel
 </button>
@@ -464,7 +463,7 @@ const handlePrintReport = () => {
 <button
   type="button"
   onClick={handlePrintReport}
-  className="rounded bg-black px-5 py-2 text-white"
+className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
 >
   Print
 </button>
@@ -794,6 +793,7 @@ fill="#2563eb"
                         {student.department?.name || "N/A"}
                       </td>
                     </tr>
+
                   ))
                 ) : (
                   <tr>

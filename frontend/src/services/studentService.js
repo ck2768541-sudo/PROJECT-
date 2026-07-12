@@ -43,3 +43,14 @@ export const getStudentCount = async () => {
   const response = await API.get("/students/count", getAuthHeader());
   return response.data;
 };
+
+
+
+export const getMyStudentDashboard = async () => {
+  const response = await API.get(
+    "/students/me/dashboard",
+    getAuthHeader()
+  );
+
+  return response.data;
+};

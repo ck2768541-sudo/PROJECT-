@@ -43,3 +43,11 @@ export const getTeacherCount = async () => {
   const response = await API.get("/teachers/count", getAuthHeader());
   return response.data;
 };
+export const getMyTeacherDashboard = async () => {
+  const response = await API.get(
+    "/teachers/me/dashboard",
+    getAuthHeader()
+  );
+
+  return response.data;
+};

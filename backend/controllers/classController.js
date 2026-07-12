@@ -11,12 +11,37 @@ const createClass = async (req, res) => {
       });
     }
 
+    if (!name || !section || !department || !academicYear) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Class name, section, department and academic year are required.",
+      });
+    }
+
+    const duplicateClass = await Class.findOne({
+      institute: req.user.institute,
+      name: name.trim(),
+      section: section.trim(),
+      department,
+      academicYear: academicYear.trim(),
+      isActive: true,
+    });
+
+    if (duplicateClass) {
+      return res.status(409).json({
+        success: false,
+        message:
+          "This class already exists with the same section, department and academic year.",
+      });
+    }
+
     const newClass = await Class.create({
       institute: req.user.institute,
-      name,
-      section,
+      name: name.trim(),
+      section: section.trim(),
       department,
-      academicYear,
+      academicYear: academicYear.trim(),
     });
 
     res.status(201).json({
@@ -25,7 +50,10 @@ const createClass = async (req, res) => {
       data: newClass,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -41,27 +69,72 @@ const getClasses = async (req, res) => {
       data: classes,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
 const updateClass = async (req, res) => {
   try {
-    const updatedClass = await Class.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        institute: req.user.institute,
-      },
-      req.body,
-      { new: true }
-    );
+    const { name, section, department, academicYear } = req.body;
 
-    if (!updatedClass) {
+    const currentClass = await Class.findOne({
+      _id: req.params.id,
+      institute: req.user.institute,
+      isActive: true,
+    });
+
+    if (!currentClass) {
       return res.status(404).json({
         success: false,
         message: "Class not found",
       });
     }
+
+    const finalName = name?.trim() || currentClass.name;
+    const finalSection = section?.trim() || currentClass.section;
+    const finalDepartment = department || currentClass.department;
+    const finalAcademicYear =
+      academicYear?.trim() || currentClass.academicYear;
+
+    const duplicateClass = await Class.findOne({
+      _id: { $ne: req.params.id },
+      institute: req.user.institute,
+      name: finalName,
+      section: finalSection,
+      department: finalDepartment,
+      academicYear: finalAcademicYear,
+      isActive: true,
+    });
+
+    if (duplicateClass) {
+      return res.status(409).json({
+        success: false,
+        message:
+          "This class already exists with the same section, department and academic year.",
+      });
+    }
+
+    const updatedClass = await Class.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        institute: req.user.institute,
+        isActive: true,
+      },
+      {
+        ...req.body,
+        name: finalName,
+        section: finalSection,
+        department: finalDepartment,
+        academicYear: finalAcademicYear,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
 
     res.status(200).json({
       success: true,
@@ -69,7 +142,10 @@ const updateClass = async (req, res) => {
       data: updatedClass,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -79,6 +155,7 @@ const deleteClass = async (req, res) => {
       {
         _id: req.params.id,
         institute: req.user.institute,
+        isActive: true,
       },
       { isActive: false },
       { new: true }
@@ -96,7 +173,10 @@ const deleteClass = async (req, res) => {
       message: "Class deleted successfully",
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -112,7 +192,10 @@ const getClassCount = async (req, res) => {
       count,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 

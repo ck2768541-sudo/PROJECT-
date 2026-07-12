@@ -36,6 +36,17 @@ const registerInstitute = async (req, res) => {
       });
     }
 
+    const existingInstitute = await Institute.findOne({
+      email: instituteEmail,
+    });
+
+    if (existingInstitute) {
+      return res.status(409).json({
+        success: false,
+        message: "Institute email already exists",
+      });
+    }
+
     const existingAdmin = await User.findOne({ email: adminEmail });
 
     if (existingAdmin) {

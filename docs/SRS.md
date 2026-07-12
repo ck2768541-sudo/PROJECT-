@@ -1,121 +1,142 @@
-# Software Requirement Specification (SRS)
-
-## Project Name
+Software Requirement Specification (SRS)
+Project Name
 Upsthiti
-
-## Version
+Version
 1.0.0
-
-## Status
-Planning Phase
-
-## Prepared By
+Status
+Development Phase (Phase 10 -- Almost Completed)
+Prepared By
 Chandan Kumar
+Project Type
 
-## Project Type
-SaaS Attendance Management System
+Single Institute Attendance & Institute Management System
+-------------------------------------------------
+# 1.project objective
 
-## Project Objective
+Upsthiti is a web-based attendance and institute management system designed for schools, colleges, coaching institutes and training centers.
+The objective is to replace manual attendance with a secure, fast and easy-to-use digital platform.
+--------------------------------------------------
+2. # User roles
+# institute Admin
+Login
+Manage Departments
+Manage Classes
+Manage Subjects
+Manage Teachers
+Manage Students
+Reset Teacher/Student Password
+View Reports
+Dashboard Analytics
+# teacher
+Login
+View Assigned Classes
+View Assigned Subjects
+Mark Attendance
+View Dashboard
 
-Upsthiti ka objective ek modern attendance management platform banana hai jise school, college, coaching institute aur training centers use kar sakein.
-
-Is platform ka main goal manual attendance process ko digital, fast, accurate aur report-friendly banana hai.
-
-## User Roles
-
-### 1. Super Admin
-- Manage complete platform
-- Manage all institutes
-- View platform analytics
-- Manage subscription plans
-
-### 2. Institute Admin
-- Manage teachers
-- Manage students
-- Manage classes
-- View attendance reports
-
-### 3. Teacher
-- Mark attendance
-- View own classes
-- Generate attendance reports
-
-### 4. Student
-- View attendance history
-- View attendance percentage
-- Update profile
-
-
-## Project Scope
-
-Upsthiti is a cloud-based SaaS Attendance Management System designed for:
-
-- Schools
-- Colleges
-- Universities
-- Coaching Institutes
-- Training Centers
-
-The system will provide:
-
-- Secure Login System
-- Attendance Management
-- Student Management
-- Teacher Management
-- Class Management
-- Subject Management
-- Attendance Reports
-- Dashboard Analytics
-- PDF & Excel Export
-- Role-Based Access Control
-
-## Functional Requirements
-
-### Authentication
-- User Signup
-- User Login
-- Forgot Password
-- Reset Password
-
-### Institute Management
-- Create Institute
-- Update Institute
-- Delete Institute
-
-### Student Management
-- Add Student
-- Update Student
-- Delete Student
-
-### Teacher Management
-- Add Teacher
-- Update Teacher
-- Delete Teacher
-
-### Attendance Management
-- Mark Attendance
-- Edit Attendance
-- Delete Attendance
-- View Attendance
-
-### Reports
-- Daily Report
-- Monthly Report
-- Student Report
-- Class Report
-- Export PDF
-- Export Exceldon
-
-
-## Non-Functional Requirements
-
-- Fast Performance
-- Responsive Design
-- Secure Authentication
-- Data Encryption
-- High Availability
-- Easy Maintenance
-- Scalable Architecture
-- Mobile Friendly
-- Cloud Deployment
-- Daily Backup Support
+# student
+Login
+View Dashboard
+View Attendance History
+View Attendance Percentage
+View Subject-wise Attendance
+------------------------------------------------
+3. # PROJECCT SCOPE
+* the system provides
+Secure Authentication
+Department Management
+Class Management
+Subject Management
+Teacher Management
+Student Management
+Attendance Management
+Daily & Monthly Attendance
+Attendance History
+Reports & Analytics
+Excel Export
+PDF Export
+Print Report
+Responsive UI
+Role-Based Access Control
+-------------------------------------------
+4. # functional Requirements
+ * Authentication
+Login
+JWT Authentication
+Role Protection
+Logout
+Forgot Password Structure
+ * Department Management
+Create
+Update
+Delete
+View
+ * Class Management
+Create
+Update
+Delete
+View
+ * Teacher Management
+Add
+Edit
+Delete
+Assign Subjects
+Assign Classes
+ * Student Management
+Add
+Edit
+Delete
+Search
+ * Subject Management
+CRUD
+Semester
+Credits
+Assignment
+ * Attendance Management
+Mark Attendance
+Daily Attendance
+Monthly Attendance
+Attendance History
+Student Report
+Subject Report
+Edit Attendance
+Delete Attendance
+ * Reports
+Student Report
+Teacher Report
+Attendance Report
+Department Filter
+Class Filter
+Subject Filter
+Date Range Filter
+Charts
+PDF Export
+Excel Export
+Print Report
+-------------------------------------
+5. Non-Functional Requirements
+Fast Performance
+Responsive Design
+Secure Authentication
+JWT Security
+Easy Maintenance
+Mobile Friendly
+Production Deployment Ready
+-------------------------------------------
+6. Technology Stack
+React
+Tailwind CSS
+Node.js
+Express.js
+MongoDB
+JWT
+Axios
+-----------------------------------------
+7. Current Status
+Phase 1--9 Completed
+Phase 10 Almost Completed
+Remaining:
+End-to-End Testing
+Responsive Design Polish
+Final Bug Fixes
+Deployment

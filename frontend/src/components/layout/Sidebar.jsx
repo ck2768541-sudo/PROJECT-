@@ -1,111 +1,143 @@
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+
+import {
+  FiGrid,
+  FiUsers,
+  FiBookOpen,
+  FiHome,
+  FiClipboard,
+  FiClock,
+  FiBarChart2,
+  FiCalendar,
+  FiFileText,
+  FiLayers,
+  FiUserCheck,
+} from "react-icons/fi";
 
 function Sidebar() {
+  const location = useLocation();
+
+  const menuItems = [
+    {
+      name: "Dashboard",
+      path: "/admin",
+      icon: FiGrid,
+    },
+    {
+      name: "Students",
+      path: "/admin/students",
+      icon: FiUsers,
+    },
+    {
+      name: "Teachers",
+      path: "/admin/teachers",
+      icon: FiUserCheck,
+    },
+    {
+      name: "Classes",
+      path: "/admin/classes",
+      icon: FiHome,
+    },
+    {
+      name: "Departments",
+      path: "/admin/departments",
+      icon: FiLayers,
+    },
+    {
+      name: "Subjects",
+      path: "/admin/subjects",
+      icon: FiBookOpen,
+    },
+    {
+      name: "Attendance",
+      path: "/admin/attendance",
+      icon: FiClipboard,
+    },
+    {
+      name: "Attendance History",
+      path: "/admin/attendance/history",
+      icon: FiClock,
+    },
+
+        {
+      name: "Student Report",
+      path: "/admin/attendance/student-report",
+      icon: FiBarChart2,
+    },
+    {
+      name: "Subject Report",
+      path: "/admin/attendance/subject-report",
+      icon: FiFileText,
+    },
+    {
+      name: "Daily Attendance",
+      path: "/admin/attendance/daily",
+      icon: FiCalendar,
+    },
+    {
+      name: "Monthly Attendance",
+      path: "/admin/attendance/monthly",
+      icon: FiCalendar,
+    },
+    {
+      name: "Reports",
+      path: "/admin/reports",
+      icon: FiFileText,
+    },
+  ];
+
   return (
-<aside className="sticky top-0 h-screen w-64 shrink-0 overflow-y-auto bg-gray-900 p-6 text-white">
-      <h1 className="text-2xl font-bold">Upsthiti</h1>
+   <aside className="sticky top-0 flex h-screen w-72 flex-col bg-slate-950 text-white shadow-2xl">
 
-      <nav className="mt-10 space-y-4">
-        <Link
-          to="/admin"
-          className="block rounded-lg bg-blue-600 px-4 py-3"
-        >
-          Dashboard
-        </Link>
+      <div className="border-b border-slate-800 px-6 py-6">
+        <h1 className="text-3xl font-extrabold tracking-wide text-white">
+          Upsthiti
+        </h1>
 
-        <Link
-          to="/admin/students"
-          className="block rounded-lg px-4 py-3 hover:bg-gray-800"
-        >
-          Students
-        </Link>
+        <p className="mt-1 text-sm text-slate-400">
+          Enterprise SaaS
+        </p>
+      </div>
+<nav className="flex-1 space-y-2 px-4 py-6 overflow-y-auto">
 
-        <Link
-          to="/admin/teachers"
-          className="block rounded-lg px-4 py-3 hover:bg-gray-800"
-        >
-          Teachers
-        </Link>
+        {menuItems.map((item) => {
 
-        <Link
-          to="/admin/classes"
-          className="block rounded-lg px-4 py-3 hover:bg-gray-800"
-        >
-          Classes
-        </Link>
+          const Icon = item.icon;
 
-        <Link
-          to="/admin/departments"
-          className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-blue-600 hover:text-white"
-        >
-          🏢 Departments
-        </Link>
+          const isActive = location.pathname === item.path;
 
-        {/* ✅ New Subjects Link */}
-        <Link
-          to="/admin/subjects"
-          className="flex items-center gap-3 rounded-lg px-4 py-3 hover:bg-blue-600 hover:text-white"
-        >
-          📚 Subjects
-        </Link>
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+className={`group flex items-center gap-5 rounded-2xl px-5 py-4 transition-all duration-300 ${
+                isActive
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "text-slate-300 hover:bg-slate-800 hover:text-white"
+              }`}
+            >
+              <Icon
+                size={20}
+                className={`${
+                  isActive
+                    ? "text-white"
+                    : "text-slate-400 group-hover:text-white"
+                }`}
+              />
 
-        <Link
-          to="/admin/attendance"
-          className="block rounded-lg px-4 py-3 hover:bg-gray-800"
-        >
-          Attendance
-        </Link>
+              <span className="font-medium">
+                {item.name}
+              </span>
 
-<Link
-  to="/admin/attendance/history"
-  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
->
-  Attendance History
-</Link>
-
-<Link
-  to="/admin/attendance/student-report"
-  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
->
-  Student Report
-</Link>
-
-<Link
-  to="/admin/attendance/subject-report"
-  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
->
-  Subject Report
-</Link>
-
-
-
-
-
-
-<Link
-  to="/admin/attendance/daily"
-  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
->
-  Daily Attendance
-</Link>
-
-<Link
-  to="/admin/attendance/monthly"
-  className="block rounded-lg px-4 py-3 hover:bg-gray-800"
->
-  Monthly Attendance
-</Link>
-
-
-
-
-        <Link
-          to="/admin/reports"
-          className="block rounded-lg px-4 py-3 hover:bg-gray-800"
-        >
-          Reports
-        </Link>
+              {isActive && (
+                <div className="ml-auto h-2 w-2 rounded-full bg-white"></div>
+              )}
+            </NavLink>
+          );
+        })}
       </nav>
+
+     
     </aside>
   );
 }

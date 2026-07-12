@@ -87,7 +87,7 @@ function SubjectDetails() {
               <div>
                 <p className="text-gray-500">Assigned Teacher</p>
                 <h2 className="text-xl font-bold">
-                  {subject.teacher?.name || "Not Assigned"}
+                 {subject.teacher?.fullName || "Not Assigned"}
                 </h2>
               </div>
 

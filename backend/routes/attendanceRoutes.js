@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+const { protect } = require("../middleware/authMiddleware");
 const {
   markAttendance,
   getAttendance,
@@ -10,18 +10,32 @@ const {
   deleteAttendance,
   getStudentAttendanceReport,
   getSubjectAttendanceReport,
+  getTeacherAttendanceData,
 } = require("../controllers/attendanceController");
+router.get("/teacher/data", protect, getTeacherAttendanceData);
+router.post("/", protect, markAttendance);
 
-router.post("/", markAttendance);
-router.get("/", getAttendance);
+router.get("/", protect, getAttendance);
 
-router.get("/daily", getDailyAttendance);
-router.get("/monthly", getMonthlyAttendance);
+router.get("/daily", protect, getDailyAttendance);
 
-router.get("/student/:studentId", getStudentAttendanceReport);
-router.get("/subject/:subjectId", getSubjectAttendanceReport);
+router.get("/monthly", protect, getMonthlyAttendance);
 
-router.put("/:id", updateAttendance);
-router.delete("/:id", deleteAttendance);
+router.get(
+  "/student/:studentId",
+  protect,
+  getStudentAttendanceReport
+);
+
+router.get(
+  "/subject/:subjectId",
+  protect,
+  getSubjectAttendanceReport
+);
+
+router.put("/:id", protect, updateAttendance);
+
+router.delete("/:id", protect, deleteAttendance);
+
 
 module.exports = router;

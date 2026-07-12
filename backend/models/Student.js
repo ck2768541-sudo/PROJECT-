@@ -20,6 +20,18 @@ const studentSchema = new mongoose.Schema(
       trim: true,
     },
 
+
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+
+
+
+
+
+
     rollNumber: {
       type: String,
       required: true,

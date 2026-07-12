@@ -450,7 +450,7 @@ function Subjects() {
                   Department: {subject.department?.name || "No Department"}
                 </p>
                 <p className="mt-1 text-gray-500">
-                  Teacher: {subject.teacher?.name || "Not Assigned"}
+Teacher: {subject.teacher?.fullName || "Not Assigned"}
                 </p>
                 <p className="mt-1 text-gray-500">
                   Class: {subject.class?.name || "Not Assigned"}
@@ -518,7 +518,7 @@ function Subjects() {
                   </p>
                   <p>
                     <b>Teacher:</b>{" "}
-                    {selectedSubject.teacher?.name || "Not Assigned"}
+                   <b>Teacher:</b> {selectedSubject.teacher?.fullName || "Not Assigned"}
                   </p>
                   <p>
                     <b>Class:</b>{" "}

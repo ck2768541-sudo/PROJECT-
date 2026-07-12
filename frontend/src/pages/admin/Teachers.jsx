@@ -28,16 +28,17 @@ const [genderFilter, setGenderFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    gender: "",
-    department: "",
-    qualification: "",
-    subjects: "",
-    assignedClasses: [],
-  });
+const [formData, setFormData] = useState({
+  fullName: "",
+  email: "",
+  password: "",
+  phone: "",
+  gender: "",
+  department: "",
+  qualification: "",
+  subjects: "",
+  assignedClasses: [],
+});
 
   const loadTeachers = async () => {
     try {
@@ -77,15 +78,16 @@ const [genderFilter, setGenderFilter] = useState("");
   const resetForm = () => {
     setEditingId(null);
     setFormData({
-      fullName: "",
-      email: "",
-      phone: "",
-      gender: "",
-      department: "",
-      qualification: "",
-      subjects: "",
-      assignedClasses: [],
-    });
+  fullName: "",
+  email: "",
+  password: "",
+  phone: "",
+  gender: "",
+  department: "",
+ qualification: "",
+  subjects: "",
+  assignedClasses: [],
+});
   };
 
   const preparePayload = () => {
@@ -125,8 +127,9 @@ const [genderFilter, setGenderFilter] = useState("");
 
     setFormData({
       fullName: teacher.fullName || "",
-      email: teacher.email || "",
-      phone: teacher.phone || "",
+  email: teacher.email || "",
+password: "",
+phone: teacher.phone || "",
       gender: teacher.gender || "",
       department: teacher.department || "",
       qualification: teacher.qualification || "",
@@ -229,6 +232,25 @@ const [genderFilter, setGenderFilter] = useState("");
                 placeholder="Email"
                 className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
               />
+
+<input
+  type="password"
+  name="password"
+  value={formData.password}
+  onChange={handleChange}
+  placeholder="Password"
+  className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+  required={!editingId}
+/>
+
+
+
+
+
+
+
+
+
 
               <input
                 name="phone"

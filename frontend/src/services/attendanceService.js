@@ -1,9 +1,17 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/attendance";
+const getAuthConfig = () => {
+  const token = localStorage.getItem("token");
 
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 export const markAttendance = (data) => {
-  return axios.post(API_URL, data);
+  return axios.post(API_URL, data, getAuthConfig());
 };
 
 export const getAttendance = () => {
@@ -32,4 +40,6 @@ export const getStudentAttendanceReport = (studentId) => {
 
 export const getSubjectAttendanceReport = (subjectId) => {
   return axios.get(`${API_URL}/subject/${subjectId}`);
+};export const getTeacherAttendanceData = () => {
+  return axios.get(`${API_URL}/teacher/data`, getAuthConfig());
 };

@@ -1,4 +1,6 @@
 const express = require("express");
+const router = express.Router();
+
 const {
   registerInstitute,
   getMyInstitute,
@@ -6,9 +8,8 @@ const {
 
 const { protect } = require("../middleware/authMiddleware");
 
-const router = express.Router();
-
+// Single Institute routes
 router.post("/register", registerInstitute);
-router.get("/me", protect, getMyInstitute);
+router.get("/my-institute", protect, getMyInstitute);
 
 module.exports = router;
