@@ -201,13 +201,12 @@ const updateStudent = async (req, res) => {
           message: "Login email already exists.",
         });
       }
-    }
-
-    const updatedStudent = await Student.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        institute: req.user.institute,
-      },
+    }const updatedStudent = await Student.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    institute: req.user.institute,
+    isActive: true,
+  },
       {
         ...studentData,
         rollNumber,
@@ -243,10 +242,11 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   try {
     const deletedStudent = await Student.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        institute: req.user.institute,
-      },
+  {
+    _id: req.params.id,
+    institute: req.user.institute,
+    isActive: true,
+  },
       { isActive: false },
       { new: true }
     );

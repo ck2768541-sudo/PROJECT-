@@ -16,7 +16,10 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).populate("institute");
+const user = await User.findOne({
+  email,
+  isActive: true,
+}).populate("institute");
 
     if (!user) {
       return res.status(401).json({

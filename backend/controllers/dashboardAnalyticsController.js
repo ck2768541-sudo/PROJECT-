@@ -27,7 +27,13 @@ const totalSubjects = await Subject.countDocuments({
   status: "Active",
 });
 
-    const attendance = await Attendance.find();
+  const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
+
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+});
 
     const totalAttendance = attendance.length;
     const present = attendance.filter((a) => a.status === "Present").length;
@@ -63,12 +69,33 @@ const totalSubjects = await Subject.countDocuments({
 
 exports.getInstituteAnalytics = async (req, res) => {
   try {
-    const totalStudents = await Student.countDocuments();
-    const totalTeachers = await Teacher.countDocuments();
-    const totalClasses = await Class.countDocuments();
-    const totalDepartments = await Department.countDocuments();
-    const totalSubjects = await Subject.countDocuments();
-    const totalAttendance = await Attendance.countDocuments();
+  const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
+
+const totalStudents = await Student.countDocuments({
+  isActive: true,
+});
+
+const totalTeachers = await Teacher.countDocuments({
+  isActive: true,
+});
+
+const totalClasses = await Class.countDocuments({
+  isActive: true,
+});
+
+const totalDepartments = await Department.countDocuments({
+  isActive: true,
+});
+
+const totalSubjects = await Subject.countDocuments({
+  status: "Active",
+});
+
+const totalAttendance = await Attendance.countDocuments({
+  student: { $in: activeStudentIds },
+});
 
     res.status(200).json({
       success: true,
@@ -92,18 +119,21 @@ exports.getInstituteAnalytics = async (req, res) => {
 
 exports.getDepartmentAnalytics = async (req, res) => {
   try {
-    const departments = await Department.find().sort({ createdAt: -1 });
+const departments = await Department.find({
+  isActive: true,
+}).sort({ createdAt: -1 });
 
     const result = [];
 
     for (const dept of departments) {
-      const teachers = await Teacher.countDocuments({
-        department: dept._id,
-      });
-
-      const subjects = await Subject.countDocuments({
-        department: dept._id,
-      });
+     const teachers = await Teacher.countDocuments({
+  department: dept._id,
+  isActive: true,
+});
+const subjects = await Subject.countDocuments({
+  department: dept._id,
+  status: "Active",
+});
 
       result.push({
         departmentId: dept._id,
@@ -128,18 +158,25 @@ exports.getDepartmentAnalytics = async (req, res) => {
 
 exports.getClassAnalytics = async (req, res) => {
   try {
-    const classes = await Class.find().sort({ createdAt: -1 });
+const classes = await Class.find({
+  isActive: true,
+}).sort({ createdAt: -1 });
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
     const result = [];
 
     for (const cls of classes) {
       const students = await Student.countDocuments({
-        class: cls._id,
-      });
-
-      const attendance = await Attendance.find({
-        class: cls._id,
-      });
+  class: cls._id,
+  isActive: true,
+});
+const attendance = await Attendance.find({
+  class: cls._id,
+  student: { $in: activeStudentIds },
+});
+     
 
       const totalAttendance = attendance.length;
       const present = attendance.filter((a) => a.status === "Present").length;
@@ -173,13 +210,18 @@ exports.getClassAnalytics = async (req, res) => {
 
 exports.getSubjectAnalytics = async (req, res) => {
   try {
-    const subjects = await Subject.find()
+  const subjects = await Subject.find({
+  status: "Active",
+})
       .populate("department")
       .populate("teacher")
       .populate("class")
       .sort({ createdAt: -1 });
 
     const result = [];
+    const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
 
 
@@ -188,10 +230,10 @@ exports.getSubjectAnalytics = async (req, res) => {
 
 
     for (const subject of subjects) {
-      const attendance = await Attendance.find({
-        subject: subject._id,
-      });
-
+    const attendance = await Attendance.find({
+  subject: subject._id,
+  student: { $in: activeStudentIds },
+});
       const totalAttendance = attendance.length;
       const present = attendance.filter((a) => a.status === "Present").length;
       const absent = attendance.filter((a) => a.status === "Absent").length;
@@ -237,7 +279,13 @@ exports.getSubjectAnalytics = async (req, res) => {
 
 exports.getWeeklyAttendanceAnalytics = async (req, res) => {
   try {
-    const attendance = await Attendance.find();
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
+
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+});
 
     const weeklyData = {};
 
@@ -277,7 +325,13 @@ exports.getWeeklyAttendanceAnalytics = async (req, res) => {
 
 exports.getMonthlyAttendanceAnalytics = async (req, res) => {
   try {
-    const attendance = await Attendance.find();
+   const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
+
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+});
 
     const monthlyData = {};
 
@@ -316,12 +370,19 @@ exports.getMonthlyAttendanceAnalytics = async (req, res) => {
 
 exports.getSubjectWiseAttendanceAnalytics = async (req, res) => {
   try {
-    const subjects = await Subject.find();
-
+   const subjects = await Subject.find({
+  status: "Active",
+});
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
     const result = [];
 
     for (const subject of subjects) {
-      const attendance = await Attendance.find({ subject: subject._id });
+     const attendance = await Attendance.find({
+  subject: subject._id,
+  student: { $in: activeStudentIds },
+});
 
       const total = attendance.length;
       const present = attendance.filter((a) => a.status === "Present").length;
@@ -353,12 +414,20 @@ exports.getSubjectWiseAttendanceAnalytics = async (req, res) => {
 
 exports.getClassWiseAttendanceAnalytics = async (req, res) => {
   try {
-    const classes = await Class.find();
+   const classes = await Class.find({
+  isActive: true,
+});
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
     const result = [];
 
     for (const cls of classes) {
-      const attendance = await Attendance.find({ class: cls._id });
+    const attendance = await Attendance.find({
+  class: cls._id,
+  student: { $in: activeStudentIds },
+});
 
       const total = attendance.length;
       const present = attendance.filter((a) => a.status === "Present").length;

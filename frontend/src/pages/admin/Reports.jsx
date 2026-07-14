@@ -790,7 +790,10 @@ fill="#2563eb"
                       </td>
 
                       <td className="border px-4 py-2">
-                        {student.department?.name || "N/A"}
+                       {student.department?.name ||
+  student.class?.department?.name ||
+  student.class?.department ||
+  "N/A"}
                       </td>
                     </tr>
 
@@ -845,7 +848,9 @@ fill="#2563eb"
                       </td>
 
                       <td className="border px-4 py-2">
-                        {teacher.department?.name || "N/A"}
+                      {teacher.department?.name ||
+  teacher.department ||
+  "N/A"}
                       </td>
                     </tr>
                   ))

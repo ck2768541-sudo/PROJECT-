@@ -75,7 +75,11 @@ const updateDepartment = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const department = await Department.findById(id);
+   const department = await Department.findOne({
+  _id: id,
+  institute: req.user.institute,
+  isActive: true,
+});
 
     if (!department) {
       return res.status(404).json({
@@ -84,14 +88,18 @@ const updateDepartment = async (req, res) => {
       });
     }
 
-    const updatedDepartment = await Department.findByIdAndUpdate(
-      id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+   const updatedDepartment = await Department.findOneAndUpdate(
+  {
+    _id: id,
+    institute: req.user.institute,
+    isActive: true,
+  },
+  req.body,
+  {
+    new: true,
+    runValidators: true,
+  }
+);
 
     res.status(200).json({
       success: true,
@@ -110,16 +118,26 @@ const deleteDepartment = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const department = await Department.findById(id);
+const department = await Department.findOneAndUpdate(
+  {
+    _id: id,
+    institute: req.user.institute,
+    isActive: true,
+  },
+  {
+    isActive: false,
+  },
+  {
+    new: true,
+  }
+);
 
-    if (!department) {
-      return res.status(404).json({
-        success: false,
-        message: "Department not found",
-      });
-    }
-
-    await Department.findByIdAndDelete(id);
+if (!department) {
+  return res.status(404).json({
+    success: false,
+    message: "Department not found",
+  });
+}
 
     res.status(200).json({
       success: true,
@@ -153,47 +171,6 @@ const getDepartmentCount = async (req, res) => {
     });
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = {
   createDepartment,

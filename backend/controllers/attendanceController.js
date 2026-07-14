@@ -153,11 +153,18 @@ exports.markAttendance = async (req, res) => {
 
 exports.getAttendance = async (req, res) => {
   try {
-    const attendance = await Attendance.find()
-      .populate("student")
-      .populate("class")
-      .populate("subject")
-      .sort({ date: -1 });
+  const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
+
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+})
+  .populate("student")
+  .populate("class")
+  .populate("subject")
+  .sort({ date: -1 });
 
     res.status(200).json({ success: true, attendance });
   } catch (error) {
@@ -173,10 +180,18 @@ exports.getDailyAttendance = async (req, res) => {
   try {
     const { classId, subjectId, date } = req.query;
 
-    const filter = {};
-    if (classId) filter.class = classId;
-    if (subjectId) filter.subject = subjectId;
-    if (date) filter.date = date;
+   const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
+
+const filter = {
+  student: { $in: activeStudentIds },
+};
+
+if (classId) filter.class = classId;
+if (subjectId) filter.subject = subjectId;
+if (date) filter.date = date;
 
     const attendance = await Attendance.find(filter)
       .populate("student")
@@ -207,14 +222,17 @@ exports.getMonthlyAttendance = async (req, res) => {
 
     const startDate = `${year}-${String(month).padStart(2, "0")}-01`;
     const endDate = `${year}-${String(month).padStart(2, "0")}-31`;
-
-    const filter = {
-      date: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-    };
-
+const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
+   const filter = {
+  student: { $in: activeStudentIds },
+  date: {
+    $gte: startDate,
+    $lte: endDate,
+  },
+};
     if (classId) filter.class = classId;
     if (subjectId) filter.subject = subjectId;
 
@@ -275,6 +293,18 @@ exports.deleteAttendance = async (req, res) => {
 exports.getStudentAttendanceReport = async (req, res) => {
   try {
     const { studentId } = req.params;
+    const activeStudent = await Student.findOne({
+  _id: studentId,
+  institute: req.user.institute,
+  isActive: true,
+});
+
+if (!activeStudent) {
+  return res.status(404).json({
+    success: false,
+    message: "Active student not found",
+  });
+}
 
     const attendance = await Attendance.find({ student: studentId })
       .populate("student")
@@ -305,8 +335,15 @@ exports.getStudentAttendanceReport = async (req, res) => {
 exports.getSubjectAttendanceReport = async (req, res) => {
   try {
     const { subjectId } = req.params;
+    const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
 
-    const attendance = await Attendance.find({ subject: subjectId })
+   const attendance = await Attendance.find({
+  subject: subjectId,
+  student: { $in: activeStudentIds },
+})
       .populate("student")
       .populate("class")
       .populate("subject")

@@ -2,9 +2,10 @@ const Subject = require("../models/Subject");
 
 exports.createSubject = async (req, res) => {
   try {
-    const existingSubject = await Subject.findOne({
-      code: req.body.code?.toUpperCase(),
-    });
+  const existingSubject = await Subject.findOne({
+  code: req.body.code?.toUpperCase(),
+  status: "Active",
+});
 
     if (existingSubject) {
       return res.status(400).json({
@@ -30,7 +31,9 @@ exports.createSubject = async (req, res) => {
 
 exports.getSubjects = async (req, res) => {
   try {
-    const subjects = await Subject.find()
+  const subjects = await Subject.find({
+  status: "Active",
+})
       .populate("department")
       .populate("teacher")
       .populate("class")
@@ -51,7 +54,10 @@ exports.getSubjects = async (req, res) => {
 
 exports.getSubjectById = async (req, res) => {
   try {
-    const subject = await Subject.findById(req.params.id)
+const subject = await Subject.findOne({
+  _id: req.params.id,
+  status: "Active",
+})
       .populate("department")
       .populate("teacher")
       .populate("class");
@@ -74,10 +80,11 @@ exports.updateSubject = async (req, res) => {
     if (req.body.code) {
       req.body.code = req.body.code.toUpperCase();
 
-      const existingSubject = await Subject.findOne({
-        code: req.body.code,
-        _id: { $ne: req.params.id },
-      });
+     const existingSubject = await Subject.findOne({
+  code: req.body.code,
+  _id: { $ne: req.params.id },
+  status: "Active",
+});
 
       if (existingSubject) {
         return res.status(400).json({
@@ -87,9 +94,16 @@ exports.updateSubject = async (req, res) => {
       }
     }
 
-    const subject = await Subject.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+   const subject = await Subject.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    status: "Active",
+  },
+  req.body,
+  {
+    new: true,
+  }
+);
 
     res.status(200).json({
       success: true,
@@ -106,7 +120,25 @@ exports.updateSubject = async (req, res) => {
 
 exports.deleteSubject = async (req, res) => {
   try {
-    await Subject.findByIdAndDelete(req.params.id);
+const subject = await Subject.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    status: "Active",
+  },
+  {
+    status: "Inactive",
+  },
+  {
+    new: true,
+  }
+);
+
+if (!subject) {
+  return res.status(404).json({
+    success: false,
+    message: "Subject not found",
+  });
+}
 
     res.status(200).json({
       success: true,

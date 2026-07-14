@@ -8,11 +8,21 @@ exports.getStudentReport = async (req, res) => {
   try {
     const { classId } = req.query;
 
-    const filter = {};
-    if (classId) filter.class = classId;
+   const filter = {
+  institute: req.user.institute,
+  isActive: true,
+};
+
+if (classId) filter.class = classId;
 
     const students = await Student.find(filter)
-      .populate("class")
+      .populate({
+  path: "class",
+  populate: {
+    path: "department",
+    select: "name code",
+  },
+})
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -33,8 +43,12 @@ exports.getTeacherReport = async (req, res) => {
   try {
     const { departmentId } = req.query;
 
-    const filter = {};
-    if (departmentId) filter.department = departmentId;
+const filter = {
+  institute: req.user.institute,
+  isActive: true,
+};
+
+if (departmentId) filter.department = departmentId;
 
     const teachers = await Teacher.find(filter)
       .populate("department")
@@ -58,10 +72,17 @@ exports.getAttendanceReport = async (req, res) => {
   try {
     const { classId, subjectId, startDate, endDate } = req.query;
 
-    const filter = {};
+  const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
 
-    if (classId) filter.class = classId;
-    if (subjectId) filter.subject = subjectId;
+const filter = {
+  student: { $in: activeStudentIds },
+};
+
+if (classId) filter.class = classId;
+if (subjectId) filter.subject = subjectId;
 
     if (startDate && endDate) {
       filter.date = {
@@ -106,10 +127,17 @@ exports.exportAttendanceExcel = async (req, res) => {
   try {
     const { classId, subjectId, startDate, endDate } = req.query;
 
-    const filter = {};
+const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
 
-    if (classId) filter.class = classId;
-    if (subjectId) filter.subject = subjectId;
+const filter = {
+  student: { $in: activeStudentIds },
+};
+
+if (classId) filter.class = classId;
+if (subjectId) filter.subject = subjectId;
 
     if (startDate && endDate) {
       filter.date = {
@@ -177,11 +205,17 @@ exports.exportAttendanceExcel = async (req, res) => {
 exports.exportAttendancePDF = async (req, res) => {
   try {
     const { classId, subjectId, startDate, endDate } = req.query;
+const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
 
-    const filter = {};
+const filter = {
+  student: { $in: activeStudentIds },
+};
 
-    if (classId) filter.class = classId;
-    if (subjectId) filter.subject = subjectId;
+if (classId) filter.class = classId;
+if (subjectId) filter.subject = subjectId;
 
     if (startDate && endDate) {
       filter.date = {
@@ -255,8 +289,12 @@ exports.exportStudentsExcel = async (req, res) => {
   try {
     const { classId } = req.query;
 
-    const filter = {};
-    if (classId) filter.class = classId;
+  const filter = {
+  institute: req.user.institute,
+  isActive: true,
+};
+
+if (classId) filter.class = classId;
 
     const students = await Student.find(filter)
       .populate("class")
@@ -314,8 +352,12 @@ exports.exportTeachersExcel = async (req, res) => {
   try {
     const { departmentId } = req.query;
 
-    const filter = {};
-    if (departmentId) filter.department = departmentId;
+const filter = {
+  institute: req.user.institute,
+  isActive: true,
+};
+
+if (departmentId) filter.department = departmentId;
 
     const teachers = await Teacher.find(filter)
       .populate("department")

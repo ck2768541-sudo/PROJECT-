@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const Attendance = require("../models/Attendance");
 const Subject = require("../models/Subject");
+const Student = require("../models/Student");
 const createTeacher = async (req, res) => {
   try {
     const {
@@ -176,11 +177,12 @@ const updateTeacher = async (req, res) => {
       }
     }
 
-    const teacher = await Teacher.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        institute: req.user.institute,
-      },
+   const teacher = await Teacher.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    institute: req.user.institute,
+    isActive: true,
+  },
       {
         ...teacherData,
         email,
@@ -213,14 +215,15 @@ const updateTeacher = async (req, res) => {
 
 const deleteTeacher = async (req, res) => {
   try {
-    const teacher = await Teacher.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        institute: req.user.institute,
-      },
-      { isActive: false },
-      { new: true }
-    );
+   const teacher = await Teacher.findOneAndUpdate(
+  {
+    _id: req.params.id,
+    institute: req.user.institute,
+    isActive: true,
+  },
+  { isActive: false },
+  { new: true }
+);
 
     if (!teacher) {
       return res.status(404).json({
@@ -287,24 +290,31 @@ const getMyTeacherDashboard = async (req, res) => {
       .sort({ name: 1 });
 
     const subjectIds = assignedSubjects.map((subject) => subject._id);
+    const activeStudentIds = await Student.find({
+  institute: req.user.institute,
+  isActive: true,
+}).distinct("_id");
 
-    const attendanceRecords = await Attendance.find({
-      subject: { $in: subjectIds },
-    })
+   const attendanceRecords = await Attendance.find({
+  subject: { $in: subjectIds },
+  student: { $in: activeStudentIds },
+})
       .populate("student", "fullName rollNumber")
       .populate("subject", "name code")
       .populate("class", "name section")
       .sort({ date: -1, createdAt: -1 })
       .limit(10);
 
-    const totalAttendanceRecords = await Attendance.countDocuments({
-      subject: { $in: subjectIds },
-    });
+   const totalAttendanceRecords = await Attendance.countDocuments({
+  subject: { $in: subjectIds },
+  student: { $in: activeStudentIds },
+});
     const attendanceSummary = await Attendance.aggregate([
   {
-    $match: {
-      subject: { $in: subjectIds },
-    },
+   $match: {
+  subject: { $in: subjectIds },
+  student: { $in: activeStudentIds },
+},
   },
   {
     $group: {

@@ -11,14 +11,16 @@ const {
   exportTeachersExcel,
 } = require("../controllers/reportController");
 
-router.get("/students", getStudentReport);
-router.get("/teachers", getTeacherReport);
-router.get("/attendance", getAttendanceReport);
+const { protect } = require("../middleware/authMiddleware");
 
-router.get("/attendance/export/excel", exportAttendanceExcel);
-router.get("/attendance/export/pdf", exportAttendancePDF);
+router.get("/students", protect, getStudentReport);
+router.get("/teachers", protect, getTeacherReport);
+router.get("/attendance", protect, getAttendanceReport);
 
-router.get("/students/export/excel", exportStudentsExcel);
-router.get("/teachers/export/excel", exportTeachersExcel);
+router.get("/attendance/export/excel", protect, exportAttendanceExcel);
+router.get("/attendance/export/pdf", protect, exportAttendancePDF);
+
+router.get("/students/export/excel", protect, exportStudentsExcel);
+router.get("/teachers/export/excel", protect, exportTeachersExcel);
 
 module.exports = router;

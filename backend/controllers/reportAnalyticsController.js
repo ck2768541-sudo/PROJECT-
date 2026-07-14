@@ -6,8 +6,14 @@ const Department = require("../models/Department");
 
 exports.getAttendanceAnalytics = async (req, res) => {
   try {
-    const attendance = await Attendance.find();
+    
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+});
     const total = attendance.length;
     const present = attendance.filter((a) => a.status === "Present").length;
     const absent = attendance.filter((a) => a.status === "Absent").length;
@@ -29,7 +35,9 @@ exports.getAttendanceAnalytics = async (req, res) => {
 
 exports.getStudentAnalytics = async (req, res) => {
   try {
-    const totalStudents = await Student.countDocuments();
+  const totalStudents = await Student.countDocuments({
+  isActive: true,
+});
 
     res.status(200).json({
       success: true,
@@ -46,7 +54,9 @@ exports.getStudentAnalytics = async (req, res) => {
 
 exports.getTeacherAnalytics = async (req, res) => {
   try {
-    const totalTeachers = await Teacher.countDocuments();
+const totalTeachers = await Teacher.countDocuments({
+  isActive: true,
+});
 
     res.status(200).json({
       success: true,
@@ -63,8 +73,14 @@ exports.getTeacherAnalytics = async (req, res) => {
 
 exports.getMonthlySummary = async (req, res) => {
   try {
-    const attendance = await Attendance.find();
+   
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
+const attendance = await Attendance.find({
+  student: { $in: activeStudentIds },
+});
     const monthlyData = {};
 
     attendance.forEach((item) => {
@@ -108,18 +124,22 @@ exports.getMonthlySummary = async (req, res) => {
 
 exports.getDepartmentSummary = async (req, res) => {
   try {
-    const departments = await Department.find();
+   const departments = await Department.find({
+  isActive: true,
+});
 
     const result = [];
 
     for (const dept of departments) {
       const students = await Student.countDocuments({
-        department: dept._id,
-      });
+  department: dept._id,
+  isActive: true,
+});
 
-      const teachers = await Teacher.countDocuments({
-        department: dept._id,
-      });
+     const teachers = await Teacher.countDocuments({
+  department: dept._id,
+  isActive: true,
+});
 
       result.push({
         departmentId: dept._id,
@@ -144,18 +164,25 @@ exports.getDepartmentSummary = async (req, res) => {
 
 exports.getClassSummary = async (req, res) => {
   try {
-    const classes = await Class.find();
+  const classes = await Class.find({
+  isActive: true,
+});
+const activeStudentIds = await Student.find({
+  isActive: true,
+}).distinct("_id");
 
     const result = [];
 
     for (const cls of classes) {
-      const students = await Student.countDocuments({
-        class: cls._id,
-      });
-
-      const attendance = await Attendance.find({
-        class: cls._id,
-      });
+      
+const students = await Student.countDocuments({
+  class: cls._id,
+  isActive: true,
+});
+     const attendance = await Attendance.find({
+  class: cls._id,
+  student: { $in: activeStudentIds },
+});
 
       const total = attendance.length;
       const present = attendance.filter((a) => a.status === "Present").length;
