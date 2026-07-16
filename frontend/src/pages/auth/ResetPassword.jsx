@@ -45,18 +45,24 @@ function ResetPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
-        <h1 className="text-center text-3xl font-bold text-blue-600">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8 sm:px-6">
+      <div className="w-full max-w-md rounded-xl bg-white p-5 shadow-lg sm:p-8">
+        <h1 className="break-words text-center text-2xl font-bold text-blue-600 sm:text-3xl">
           Reset Password
         </h1>
 
-        <p className="mt-2 text-center text-gray-500">
+        <p className="mt-2 text-center text-sm text-gray-500 sm:text-base">
           Create your new password
         </p>
 
+        {email && (
+          <p className="mt-2 break-all text-center text-sm font-medium text-gray-600">
+            {email}
+          </p>
+        )}
+
         {error && (
-          <p className="mt-5 rounded bg-red-100 p-3 text-red-600">
+          <p className="mt-5 break-words rounded bg-red-100 p-3 text-sm text-red-600 sm:text-base">
             {error}
           </p>
         )}
@@ -69,7 +75,7 @@ function ResetPassword() {
             onChange={(e) =>
               setNewPassword(e.target.value)
             }
-            className="mb-4 w-full rounded-lg border px-4 py-3"
+            className="mb-4 w-full min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
             required
           />
 
@@ -80,13 +86,13 @@ function ResetPassword() {
             onChange={(e) =>
               setConfirmPassword(e.target.value)
             }
-            className="mb-5 w-full rounded-lg border px-4 py-3"
+            className="mb-5 w-full min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
             required
           />
 
           <button
             disabled={loading}
-            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
           >
             {loading
               ? "Updating..."

@@ -51,26 +51,32 @@ function MonthlyAttendance() {
   const percentage = total > 0 ? Math.round((present / total) * 100) : 0;
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen min-w-0 bg-slate-100">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <Topbar />
 
-        <section className="p-6">
-          <h1 className="text-2xl font-bold text-gray-800">
-            Monthly Attendance
-          </h1>
+        <section className="p-4 sm:p-6 lg:p-8">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">
+              Attendance
+            </p>
 
-          <p className="mt-1 text-gray-500">
-            View monthly attendance summary.
-          </p>
+            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+              Monthly Attendance
+            </h1>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 rounded-lg bg-white p-5 shadow md:grid-cols-5">
+            <p className="mt-2 text-slate-600">
+              View monthly attendance summary.
+            </p>
+          </div>
+
+          <div className="mt-6 grid grid-cols-1 gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-2 sm:p-6 lg:grid-cols-3 xl:grid-cols-5">
             <select
               value={classId}
               onChange={(e) => setClassId(e.target.value)}
-              className="rounded border px-4 py-2 outline-none"
+              className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Classes</option>
               {classes.map((cls) => (
@@ -83,7 +89,7 @@ function MonthlyAttendance() {
             <select
               value={subjectId}
               onChange={(e) => setSubjectId(e.target.value)}
-              className="rounded border px-4 py-2 outline-none"
+              className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="">All Subjects</option>
               {subjects.map((subject) => (
@@ -96,7 +102,7 @@ function MonthlyAttendance() {
             <select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="rounded border px-4 py-2 outline-none"
+              className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
               <option value="1">January</option>
               <option value="2">February</option>
@@ -116,83 +122,126 @@ function MonthlyAttendance() {
               type="number"
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              className="rounded border px-4 py-2 outline-none"
+              className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             />
 
             <button
               onClick={handleSearch}
-              className="rounded bg-blue-600 px-5 py-2 text-white"
+              className="w-full rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:col-span-2 lg:col-span-1"
             >
               Search
             </button>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-5">
-            <div className="rounded-lg bg-white p-5 shadow">
-              <p className="text-gray-500">Total</p>
-              <h2 className="mt-2 text-3xl font-bold">{total}</h2>
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md sm:p-5">
+              <p className="text-sm font-semibold text-slate-500">Total</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">
+                {total}
+              </h2>
             </div>
 
-            <div className="rounded-lg bg-white p-5 shadow">
-              <p className="text-gray-500">Present</p>
-              <h2 className="mt-2 text-3xl font-bold">{present}</h2>
+            <div className="rounded-2xl border border-emerald-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-5">
+              <p className="text-sm font-semibold text-slate-500">Present</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-emerald-600">
+                {present}
+              </h2>
             </div>
 
-            <div className="rounded-lg bg-white p-5 shadow">
-              <p className="text-gray-500">Absent</p>
-              <h2 className="mt-2 text-3xl font-bold">{absent}</h2>
+            <div className="rounded-2xl border border-red-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-5">
+              <p className="text-sm font-semibold text-slate-500">Absent</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-red-600">
+                {absent}
+              </h2>
             </div>
 
-            <div className="rounded-lg bg-white p-5 shadow">
-              <p className="text-gray-500">Late</p>
-              <h2 className="mt-2 text-3xl font-bold">{late}</h2>
+            <div className="rounded-2xl border border-amber-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:p-5">
+              <p className="text-sm font-semibold text-slate-500">Late</p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-amber-600">
+                {late}
+              </h2>
             </div>
 
-            <div className="rounded-lg bg-white p-5 shadow">
-              <p className="text-gray-500">Attendance %</p>
-              <h2 className="mt-2 text-3xl font-bold">{percentage}%</h2>
+            <div className="rounded-2xl border border-violet-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md sm:col-span-2 sm:p-5 lg:col-span-1">
+              <p className="text-sm font-semibold text-slate-500">
+                Attendance %
+              </p>
+              <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-violet-600">
+                {percentage}%
+              </h2>
             </div>
           </div>
 
-          <div className="mt-6 overflow-x-auto rounded-lg bg-white shadow">
-            <table className="w-full border">
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <table className="w-full min-w-[760px] border-separate border-spacing-0 text-sm">
               <thead>
-                <tr className="bg-gray-200 text-left">
-                  <th className="border px-4 py-2">Student</th>
-                  <th className="border px-4 py-2">Class</th>
-                  <th className="border px-4 py-2">Subject</th>
-                  <th className="border px-4 py-2">Date</th>
-                  <th className="border px-4 py-2">Status</th>
+                <tr className="bg-slate-100 text-left text-slate-600">
+                  <th className="border-b border-r border-slate-200 px-4 py-3 first:border-l">
+                    Student
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-4 py-3">
+                    Class
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-4 py-3">
+                    Subject
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-4 py-3">
+                    Date
+                  </th>
+                  <th className="border-b border-r border-slate-200 px-4 py-3">
+                    Status
+                  </th>
                 </tr>
               </thead>
 
               <tbody>
                 {attendance.length > 0 ? (
                   attendance.map((item) => (
-                    <tr key={item._id}>
+                    <tr
+                      key={item._id}
+                      className="transition hover:bg-slate-50"
+                    >
+                      <td className="border-b border-r border-slate-200 px-4 py-3 first:border-l">
+                        {item.student?.name ||
+                          item.student?.fullName ||
+                          item.student?.studentName ||
+                          "N/A"}
+                      </td>
 
-                     <td className="border px-4 py-2">
-  {item.student?.name ||
-    item.student?.fullName ||
-    item.student?.studentName ||
-    "N/A"}
-</td>
-
-                      <td className="border px-4 py-2">
+                      <td className="border-b border-r border-slate-200 px-4 py-3 text-slate-600">
                         {item.class?.name || "N/A"}
                       </td>
-                      <td className="border px-4 py-2">
+
+                      <td className="border-b border-r border-slate-200 px-4 py-3 text-slate-600">
                         {item.subject?.name || "N/A"}
                       </td>
-                      <td className="border px-4 py-2">{item.date}</td>
-                      <td className="border px-4 py-2">{item.status}</td>
+
+                      <td className="border-b border-r border-slate-200 px-4 py-3 text-slate-600">
+                        {item.date}
+                      </td>
+
+                      <td className="border-b border-r border-slate-200 px-4 py-3">
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                            item.status === "Present"
+                              ? "bg-emerald-100 text-emerald-700"
+                              : item.status === "Absent"
+                              ? "bg-red-100 text-red-700"
+                              : item.status === "Late"
+                              ? "bg-amber-100 text-amber-700"
+                              : "bg-slate-100 text-slate-700"
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
                     <td
                       colSpan="5"
-                      className="border px-4 py-6 text-center text-gray-500"
+                      className="border-b border-l border-r border-slate-200 bg-slate-50 px-4 py-8 text-center text-slate-500"
                     >
                       No monthly attendance records found.
                     </td>

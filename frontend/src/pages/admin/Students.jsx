@@ -133,49 +133,50 @@ function Students() {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen min-w-0 bg-slate-100">
       <Sidebar />
 
-      <main className="flex-1">
+      <main className="min-w-0 flex-1">
         <Topbar />
 
-        <section className="p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+        <section className="p-4 sm:p-6 lg:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">Students</p>
+              <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
                 Student Management
               </h1>
-              <p className="mt-2 text-gray-600">
+              <p className="mt-2 text-slate-600">
                 Add and manage institute students.
               </p>
             </div>
 
-            <div className="rounded-lg bg-white px-5 py-3 shadow">
+            <div className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-600 shadow-sm sm:w-auto sm:px-5">
               Total Students: <b>{students.length}</b>
             </div>
           </div>
 
-          <div className="mt-8 rounded-xl bg-white p-6 shadow">
-            <h2 className="text-xl font-bold">
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-6">
+            <h2 className="text-xl font-extrabold tracking-tight text-slate-900">
               {editingId ? "Edit Student" : "Add New Student"}
             </h2>
 
             {message && (
-              <p className="mt-4 rounded-lg bg-blue-50 p-3 text-blue-700">
+              <p className="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm font-medium text-blue-700">
                 {message}
               </p>
             )}
 
             <form
               onSubmit={handleSubmit}
-              className="mt-6 grid gap-4 md:grid-cols-3"
+              className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
               <input
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
                 placeholder="Full Name"
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 required
               />
 
@@ -184,7 +185,7 @@ function Students() {
                 value={formData.rollNumber}
                 onChange={handleChange}
                 placeholder="Roll Number"
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 required
               />
 
@@ -192,7 +193,7 @@ function Students() {
                 name="gender"
                 value={formData.gender}
                 onChange={handleChange}
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 required
               >
                 <option value="">Select Gender</option>
@@ -206,7 +207,7 @@ function Students() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Phone"
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
 
               <input
@@ -214,7 +215,7 @@ function Students() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
 
 
@@ -224,7 +225,7 @@ function Students() {
   value={formData.password}
   onChange={handleChange}
   placeholder="Password"
-  className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+  className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
  required={!editingId}
 />
 
@@ -237,7 +238,7 @@ function Students() {
                 name="classId"
                 value={formData.classId}
                 onChange={handleChange}
-                className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+                className="min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 required
               >
                 <option value="">Select Class</option>
@@ -250,7 +251,7 @@ function Students() {
 
               <button
                 disabled={loading}
-                className="rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700 disabled:bg-blue-300 md:col-span-2"
+                className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-blue-300 sm:col-span-2 lg:col-span-2"
               >
                 {loading
                   ? "Saving..."
@@ -263,7 +264,7 @@ function Students() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="rounded-lg border px-6 py-3"
+                  className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300"
                 >
                   Cancel Edit
                 </button>
@@ -271,22 +272,22 @@ function Students() {
             </form>
           </div>
 
-          <div className="mt-8 rounded-xl bg-white p-6 shadow">
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="text-xl font-bold">Student List</h2>
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <h2 className="text-xl font-extrabold tracking-tight text-slate-900">Student List</h2>
 
-              <div className="flex gap-3">
+              <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:w-auto">
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search student..."
-                  className="w-64 rounded-lg border px-4 py-2 outline-none focus:border-blue-600"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:min-w-0 lg:w-64"
                 />
 
                 <select
                   value={classFilter}
                   onChange={(e) => setClassFilter(e.target.value)}
-                  className="rounded-lg border px-4 py-2 outline-none focus:border-blue-600"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 >
                   <option value="">All Classes</option>
                   {classes.map((item) => (
@@ -300,35 +301,35 @@ function Students() {
 
             <div className="mt-4 space-y-3">
               {filteredStudents.length === 0 ? (
-                <p className="rounded-lg border border-dashed p-6 text-center text-gray-500">
+                <p className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
                   No students found.
                 </p>
               ) : (
                 filteredStudents.map((student) => (
                   <div
                     key={student._id}
-                    className="flex items-center justify-between rounded-lg border p-4"
+                    className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:border-blue-200 hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
                   >
-                    <div>
-                      <h3 className="font-bold">{student.fullName}</h3>
-                      <p className="text-gray-600">
+                    <div className="min-w-0">
+                      <h3 className="break-words text-base font-bold text-slate-900 sm:text-lg">{student.fullName}</h3>
+                      <p className="mt-1 break-words text-sm text-slate-600">
                         Roll: {student.rollNumber} • {student.gender} •{" "}
                         {student.class?.name || "No Class"}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="mt-1 break-all text-sm text-slate-500">
                         {student.phone || "No phone"} •{" "}
                         {student.email || "No email"}
                       </p>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="grid w-full grid-cols-3 gap-2 sm:w-auto sm:flex sm:gap-3">
 
 
 
 
                    <Link
   to={`/admin/students/${student._id}`}
-  className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+  className="rounded-xl bg-blue-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:px-4"
 >
   View
 </Link>   
@@ -338,14 +339,14 @@ function Students() {
   
                       <button
                         onClick={() => handleEdit(student)}
-                        className="rounded-lg bg-yellow-500 px-4 py-2 text-white"
+                        className="rounded-xl bg-amber-500 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600 sm:px-4"
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() => handleDelete(student._id)}
-                        className="rounded-lg bg-red-600 px-4 py-2 text-white"
+                        className="rounded-xl bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 sm:px-4"
                       >
                         Delete
                       </button>

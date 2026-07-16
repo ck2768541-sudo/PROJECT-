@@ -36,30 +36,30 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-        <h1 className="text-center text-3xl font-bold text-blue-600">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4 py-8 sm:px-6">
+      <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-lg sm:p-8">
+        <h1 className="break-words text-center text-2xl font-bold text-blue-600 sm:text-3xl">
           Forgot Password
         </h1>
 
-        <p className="mt-2 text-center text-gray-500">
+        <p className="mt-2 break-words text-center text-sm leading-6 text-gray-500 sm:text-base">
           Enter your registered email to receive an OTP.
         </p>
 
         {message && (
-          <p className="mt-5 rounded-lg bg-green-50 p-3 text-green-700">
+          <p className="mt-5 break-words rounded-lg bg-green-50 p-3 text-sm text-green-700 sm:text-base">
             {message}
           </p>
         )}
 
         {error && (
-          <p className="mt-5 rounded-lg bg-red-50 p-3 text-red-700">
+          <p className="mt-5 break-words rounded-lg bg-red-50 p-3 text-sm text-red-700 sm:text-base">
             {error}
           </p>
         )}
 
         <form onSubmit={handleSubmit} className="mt-6">
-          <label className="mb-2 block font-medium text-gray-700">
+          <label className="mb-2 block text-sm font-medium text-gray-700 sm:text-base">
             Email Address
           </label>
 
@@ -68,7 +68,7 @@ function ForgotPassword() {
             placeholder="Enter registered email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+            className="w-full min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
             required
           />
 
@@ -84,7 +84,7 @@ function ForgotPassword() {
         <div className="mt-6 text-center">
           <Link
             to="/login"
-            className="font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-blue-600 hover:underline sm:text-base"
           >
             Back to Login
           </Link>

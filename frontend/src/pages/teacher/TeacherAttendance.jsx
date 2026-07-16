@@ -151,8 +151,8 @@ function TeacherAttendance() {
 
   if (loading) {
     return (
-      <section className="min-h-screen bg-gray-100 p-8">
-        <p className="text-gray-600">
+      <section className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
+        <p className="break-words text-gray-600">
           Loading attendance data...
         </p>
       </section>
@@ -161,22 +161,22 @@ function TeacherAttendance() {
 
   if (error && classes.length === 0) {
     return (
-      <section className="min-h-screen bg-gray-100 p-8">
-        <div className="rounded-xl bg-white p-6 shadow">
+      <section className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
+        <div className="rounded-xl bg-white p-4 shadow sm:p-6">
           <h1 className="text-2xl font-bold text-red-600">
             Attendance Error
           </h1>
 
-          <p className="mt-3 text-gray-700">{error}</p>
+          <p className="mt-3 break-words text-gray-700">{error}</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="min-h-screen bg-gray-100 p-8">
-      <div className="rounded-xl bg-white p-6 shadow">
-        <h1 className="text-3xl font-bold text-gray-900">
+    <section className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
+      <div className="rounded-xl bg-white p-4 shadow sm:p-6">
+        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
           Mark Attendance
         </h1>
 
@@ -198,13 +198,13 @@ function TeacherAttendance() {
         )}
 
         <form onSubmit={handleSubmit}>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-8 lg:grid-cols-3">
             <select
               value={classId}
               onChange={(event) =>
                 setClassId(event.target.value)
               }
-              className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+              className="min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
               required
             >
               <option value="">Select Assigned Class</option>
@@ -227,7 +227,7 @@ function TeacherAttendance() {
               onChange={(event) =>
                 setSubjectId(event.target.value)
               }
-              className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+              className="min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
               required
               disabled={!classId}
             >
@@ -253,13 +253,13 @@ function TeacherAttendance() {
               onChange={(event) =>
                 setDate(event.target.value)
               }
-              className="rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
+              className="min-w-0 rounded-lg border px-4 py-3 outline-none focus:border-blue-600"
               required
             />
           </div>
 
-          <div className="mt-8 overflow-x-auto rounded-xl border">
-            <table className="w-full border-collapse text-left text-sm">
+          <div className="mt-6 overflow-x-auto rounded-xl border sm:mt-8">
+            <table className="w-full min-w-[760px] border-collapse text-left text-sm">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="border p-3">Roll Number</th>
@@ -311,7 +311,7 @@ function TeacherAttendance() {
                               event.target.value
                             )
                           }
-                          className="w-full rounded border px-3 py-2 outline-none"
+                          className="w-full min-w-[120px] rounded border px-3 py-2 outline-none"
                         >
                           <option value="Present">
                             Present
@@ -336,7 +336,7 @@ function TeacherAttendance() {
                             )
                           }
                           placeholder="Optional remarks"
-                          className="w-full rounded border px-3 py-2 outline-none"
+                          className="w-full min-w-[180px] rounded border px-3 py-2 outline-none"
                         />
                       </td>
                     </tr>
@@ -354,7 +354,7 @@ function TeacherAttendance() {
               !subjectId ||
               filteredStudents.length === 0
             }
-            className="mt-6 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300"
+            className="mt-6 w-full rounded-lg bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300 sm:w-auto"
           >
             {saving
               ? "Saving Attendance..."

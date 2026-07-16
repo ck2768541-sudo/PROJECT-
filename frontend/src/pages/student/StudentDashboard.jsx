@@ -40,11 +40,11 @@ function StudentDashboard() {
 
   if (loading) {
     return (
-      <section className="flex min-h-screen items-center justify-center bg-slate-50">
+      <section className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
         <div className="text-center">
           <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
 
-          <p className="mt-4 font-medium text-slate-600">
+          <p className="mt-4 break-words font-medium text-slate-600">
             Loading your dashboard...
           </p>
         </div>
@@ -54,8 +54,8 @@ function StudentDashboard() {
 
   if (error) {
     return (
-      <section className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-        <div className="w-full max-w-lg rounded-3xl border border-red-100 bg-white p-8 text-center shadow-xl">
+      <section className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-8">
+        <div className="w-full max-w-lg rounded-3xl border border-red-100 bg-white p-5 text-center shadow-xl sm:p-8">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-3xl">
             !
           </div>
@@ -64,7 +64,7 @@ function StudentDashboard() {
             Dashboard Error
           </h1>
 
-          <p className="mt-3 text-slate-600">{error}</p>
+          <p className="mt-3 break-words text-slate-600">{error}</p>
         </div>
       </section>
     );
@@ -102,21 +102,21 @@ function StudentDashboard() {
   };
 
   return (
-    <section className="min-h-screen bg-slate-100">
+    <section className="min-h-screen min-w-0 bg-slate-100">
       {/* Top Header */}
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-xl font-bold text-white shadow-lg">
+      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-lg font-bold text-white shadow-lg sm:h-12 sm:w-12 sm:text-xl">
               U
             </div>
 
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+            <div className="min-w-0">
+              <h1 className="break-words text-xl font-bold text-slate-900 sm:text-2xl lg:text-3xl">
                 Student Dashboard
               </h1>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 break-words text-sm text-slate-500">
                 Welcome back,{" "}
                 <span className="font-semibold text-blue-600">
                   {user?.fullName ||
@@ -130,40 +130,40 @@ function StudentDashboard() {
           <button
             type="button"
             onClick={handleLogout}
-            className="rounded-xl bg-red-500 px-4 py-2.5 font-semibold text-white shadow-md transition hover:bg-red-600"
+            className="w-full rounded-xl bg-red-500 px-4 py-2.5 font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 md:w-auto"
           >
             Logout
           </button>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto min-w-0 max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Profile Hero */}
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 p-6 text-white shadow-xl sm:p-8">
+        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-blue-700 via-indigo-700 to-violet-700 p-4 text-white shadow-2xl shadow-indigo-200/40 sm:p-6 lg:p-8">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10" />
           <div className="absolute -bottom-28 right-32 h-72 w-72 rounded-full bg-white/5" />
 
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border border-white/30 bg-white/15 text-4xl font-bold shadow-lg backdrop-blur">
+          <div className="relative grid min-w-0 gap-6 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+            <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl border border-white/30 bg-white/15 text-3xl font-bold shadow-lg backdrop-blur sm:h-24 sm:w-24 sm:text-4xl">
                 {profile?.fullName?.charAt(0)?.toUpperCase() || "S"}
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-medium text-blue-100">
                   Student Profile
                 </p>
 
-                <h2 className="mt-1 text-3xl font-bold">
+                <h2 className="mt-1 break-words text-2xl font-bold sm:text-3xl">
                   {profile?.fullName || "Student"}
                 </h2>
 
-                <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                  <span className="rounded-full bg-white/15 px-4 py-2 backdrop-blur">
+                <div className="mt-4 flex flex-wrap gap-2 text-xs sm:gap-3 sm:text-sm">
+                  <span className="rounded-full bg-white/15 px-3 py-2 backdrop-blur sm:px-4">
                     Roll No: {profile?.rollNumber || "N/A"}
                   </span>
 
-                  <span className="rounded-full bg-white/15 px-4 py-2 backdrop-blur">
+                  <span className="rounded-full bg-white/15 px-3 py-2 backdrop-blur sm:px-4">
                     {profile?.class?.name || "Class N/A"}
                     {profile?.class?.section
                       ? ` - ${profile.class.section}`
@@ -173,12 +173,12 @@ function StudentDashboard() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur">
+            <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur sm:p-5">
               <p className="text-sm text-blue-100">
                 Academic Year
               </p>
 
-              <p className="mt-1 text-2xl font-bold">
+              <p className="mt-1 break-words text-xl font-bold sm:text-2xl">
                 {profile?.class?.academicYear || "N/A"}
               </p>
             </div>
@@ -186,80 +186,80 @@ function StudentDashboard() {
         </section>
 
         {summary?.totalClasses === 0 && (
-          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-700 shadow-sm">
+          <div className="mt-6 break-words rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-700 shadow-sm">
             No attendance has been recorded yet.
           </div>
         )}
 
         {/* Summary Cards */}
-        <section className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex items-start justify-between">
-              <div>
+        <section className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5 xl:grid-cols-4">
+          <div className="rounded-3xl border border-blue-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-500">
                   Total Classes
                 </p>
 
-                <p className="mt-3 text-4xl font-bold text-slate-900">
+                <p className="mt-3 text-3xl font-bold text-slate-900 sm:text-4xl">
                   {summary?.totalClasses || 0}
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-xl">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-100 text-xl">
                 📚
               </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex items-start justify-between">
-              <div>
+          <div className="rounded-3xl border border-emerald-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-500">
                   Present
                 </p>
 
-                <p className="mt-3 text-4xl font-bold text-emerald-600">
+                <p className="mt-3 text-3xl font-bold text-emerald-600 sm:text-4xl">
                   {summary?.presentCount || 0}
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-xl">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-100 text-xl">
                 ✓
               </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-red-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex items-start justify-between">
-              <div>
+          <div className="rounded-3xl border border-red-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-500">
                   Absent
                 </p>
 
-                <p className="mt-3 text-4xl font-bold text-red-600">
+                <p className="mt-3 text-3xl font-bold text-red-600 sm:text-4xl">
                   {summary?.absentCount || 0}
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-xl">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-100 text-xl">
                 ✕
               </div>
             </div>
           </div>
 
-          <div className="rounded-3xl border border-violet-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-            <div className="flex items-start justify-between">
-              <div>
+          <div className="rounded-3xl border border-violet-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
                 <p className="text-sm font-semibold text-slate-500">
                   Attendance
                 </p>
 
-                <p className="mt-3 text-4xl font-bold text-violet-600">
+                <p className="mt-3 text-3xl font-bold text-violet-600 sm:text-4xl">
                   {attendancePercentage}%
                 </p>
               </div>
 
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-100 text-xl">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-100 text-xl">
                 %
               </div>
             </div>
@@ -279,24 +279,24 @@ function StudentDashboard() {
         </section>
 
         {/* Profile Details */}
-        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900">
+        <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-6 lg:p-8">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h2 className="break-words text-lg font-bold text-slate-900 sm:text-xl">
                 Personal Information
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 break-words text-sm text-slate-500">
                 Your registered student details
               </p>
             </div>
 
-            <div className="hidden h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-xl sm:flex">
+            <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-xl sm:flex">
               👤
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {[
               ["Full Name", profile?.fullName || "N/A"],
               ["Roll Number", profile?.rollNumber || "N/A"],
@@ -317,13 +317,13 @@ function StudentDashboard() {
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
+                className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 transition hover:border-blue-200 hover:bg-blue-50/40"
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   {label}
                 </p>
 
-                <p className="mt-2 font-semibold text-slate-800">
+                <p className="mt-2 break-words font-semibold text-slate-800">
                   {value}
                 </p>
               </div>
@@ -332,9 +332,9 @@ function StudentDashboard() {
         </section>
 
         {/* Subject-wise Attendance */}
-        <section className="mt-8 rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-100 p-6 sm:p-8">
-            <h2 className="text-xl font-bold text-slate-900">
+        <section className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md sm:mt-8">
+          <div className="border-b border-slate-100 p-4 sm:p-6 lg:p-8">
+            <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
               Subject-wise Attendance
             </h2>
 
@@ -344,7 +344,7 @@ function StudentDashboard() {
           </div>
 
           {subjectWiseAttendance.length === 0 ? (
-            <div className="p-10 text-center text-slate-500">
+            <div className="p-6 text-center text-slate-500 sm:p-10">
               No subject attendance found.
             </div>
           ) : (
@@ -415,11 +415,11 @@ function StudentDashboard() {
         </section>
 
         {/* Bottom Grid */}
-        <section className="mt-8 grid gap-8 xl:grid-cols-2">
+        <section className="mt-6 grid grid-cols-1 gap-6 sm:mt-8 xl:grid-cols-2 xl:gap-8">
           {/* Attendance History */}
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div className="border-b border-slate-100 p-6">
-              <h2 className="text-xl font-bold text-slate-900">
+          <div className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+            <div className="border-b border-slate-100 p-4 sm:p-6">
+              <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
                 Attendance History
               </h2>
 
@@ -429,7 +429,7 @@ function StudentDashboard() {
             </div>
 
             {attendanceHistory.length === 0 ? (
-              <div className="p-10 text-center text-slate-500">
+              <div className="p-6 text-center text-slate-500 sm:p-10">
                 No attendance history found.
               </div>
             ) : (
@@ -449,7 +449,7 @@ function StudentDashboard() {
                     {attendanceHistory.map((item) => (
                       <tr
                         key={item._id}
-                        className="hover:bg-slate-50"
+                        className="transition hover:bg-slate-50"
                       >
                         <td className="px-5 py-4 text-slate-600">
                           {item.date}
@@ -488,9 +488,9 @@ function StudentDashboard() {
           </div>
 
           {/* Monthly Attendance */}
-          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-            <div className="border-b border-slate-100 p-6">
-              <h2 className="text-xl font-bold text-slate-900">
+          <div className="min-w-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+            <div className="border-b border-slate-100 p-4 sm:p-6">
+              <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
                 Monthly Attendance
               </h2>
 
@@ -500,7 +500,7 @@ function StudentDashboard() {
             </div>
 
             {monthlyAttendance.length === 0 ? (
-              <div className="p-10 text-center text-slate-500">
+              <div className="p-6 text-center text-slate-500 sm:p-10">
                 No monthly attendance found.
               </div>
             ) : (
@@ -521,7 +521,7 @@ function StudentDashboard() {
                     {monthlyAttendance.map((item) => (
                       <tr
                         key={item.month}
-                        className="hover:bg-slate-50"
+                        className="transition hover:bg-slate-50"
                       >
                         <td className="px-5 py-4 font-semibold text-slate-900">
                           {item.month}
@@ -555,7 +555,7 @@ function StudentDashboard() {
           </div>
         </section>
 
-        <footer className="mt-10 pb-4 text-center text-sm text-slate-400">
+        <footer className="mt-10 border-t border-slate-200 pt-5 pb-4 text-center text-sm text-slate-400">
           Upsthiti Student Portal
         </footer>
       </main>

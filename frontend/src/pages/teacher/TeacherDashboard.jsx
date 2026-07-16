@@ -93,17 +93,17 @@ function TeacherDashboard() {
   };
 
   return (
-    <section className="min-h-screen bg-slate-100">
+    <section className="min-h-screen min-w-0 bg-slate-100">
       {/* Top Header */}
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-xl font-bold text-white shadow-lg">
+      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-lg font-bold text-white shadow-lg sm:h-12 sm:w-12 sm:text-xl">
               U
             </div>
 
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
+            <div className="min-w-0">
+              <h1 className="break-words text-xl font-bold text-slate-900 sm:text-2xl lg:text-3xl">
                 Teacher Dashboard
               </h1>
 
@@ -116,10 +116,10 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:flex sm:items-center sm:gap-3">
             <Link
               to="/teacher/attendance"
-              className="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-indigo-700 sm:px-5"
+              className="rounded-xl bg-indigo-600 px-3 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-indigo-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:px-5"
             >
               Mark Attendance
             </Link>
@@ -127,7 +127,7 @@ function TeacherDashboard() {
             <button
               type="button"
               onClick={handleLogout}
-              className="rounded-xl bg-red-500 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-red-600"
+              className="rounded-xl bg-red-500 px-3 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-red-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 sm:px-4"
             >
               Logout
             </button>
@@ -135,28 +135,28 @@ function TeacherDashboard() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <main className="mx-auto min-w-0 max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* Teacher Profile Hero */}
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-violet-700 to-purple-700 p-6 text-white shadow-xl sm:p-8">
+        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-r from-indigo-700 via-violet-700 to-purple-700 p-4 text-white shadow-2xl shadow-violet-200/40 sm:p-6 lg:p-8">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10" />
           <div className="absolute -bottom-28 right-32 h-72 w-72 rounded-full bg-white/5" />
 
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-3xl border border-white/30 bg-white/15 text-4xl font-bold shadow-lg backdrop-blur">
+          <div className="relative grid min-w-0 gap-6 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+            <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl border border-white/30 bg-white/15 text-3xl font-bold shadow-lg backdrop-blur sm:h-24 sm:w-24 sm:text-4xl">
                 {profile?.fullName?.charAt(0)?.toUpperCase() || "T"}
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-medium text-indigo-100">
                   Teacher Profile
                 </p>
 
-                <h2 className="mt-1 text-3xl font-bold">
+                <h2 className="mt-1 break-words text-2xl font-bold sm:text-3xl">
                   {profile?.fullName || "Teacher"}
                 </h2>
 
-                <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                <div className="mt-4 flex flex-wrap gap-2 text-xs sm:gap-3 sm:text-sm">
                   <span className="rounded-full bg-white/15 px-4 py-2 backdrop-blur">
                     {profile?.department || "Department N/A"}
                   </span>
@@ -181,8 +181,8 @@ function TeacherDashboard() {
         </section>
 
         {/* Summary Cards */}
-        <section className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-          <div className="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+        <section className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
+          <div className="rounded-3xl border border-blue-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -200,7 +200,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-violet-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+          <div className="rounded-3xl border border-violet-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -218,7 +218,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+          <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -236,7 +236,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+          <div className="rounded-3xl border border-emerald-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -254,7 +254,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-red-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+          <div className="rounded-3xl border border-red-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -272,7 +272,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-amber-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+          <div className="rounded-3xl border border-amber-100 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:p-6">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-500">
@@ -292,10 +292,10 @@ function TeacherDashboard() {
         </section>
 
         {/* Personal Information */}
-        <section className="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900">
+        <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm sm:mt-8 sm:p-6 lg:p-8">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h2 className="break-words text-lg font-bold text-slate-900 sm:text-xl">
                 Personal Information
               </h2>
 
@@ -309,7 +309,7 @@ function TeacherDashboard() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {[
               ["Full Name", profile?.fullName || "N/A"],
               ["Email", profile?.email || "N/A"],
@@ -320,13 +320,13 @@ function TeacherDashboard() {
             ].map(([label, value]) => (
               <div
                 key={label}
-                className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
+                className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/80 p-4 transition hover:border-indigo-200 hover:bg-indigo-50/40"
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
                   {label}
                 </p>
 
-                <p className="mt-2 font-semibold capitalize text-slate-800">
+                <p className="mt-2 break-words font-semibold capitalize text-slate-800">
                   {value}
                 </p>
               </div>
@@ -335,8 +335,8 @@ function TeacherDashboard() {
         </section>
 
         {/* Assigned Classes */}
-        <section className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-100 p-6 sm:p-8">
+        <section className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md sm:mt-8">
+          <div className="border-b border-slate-100 p-4 sm:p-6 lg:p-8">
             <h2 className="text-xl font-bold text-slate-900">
               My Assigned Classes
             </h2>
@@ -347,7 +347,7 @@ function TeacherDashboard() {
           </div>
 
           {assignedClasses.length === 0 ? (
-            <div className="p-10 text-center text-slate-500">
+            <div className="p-6 text-center text-slate-500 sm:p-10">
               No assigned classes found.
             </div>
           ) : (
@@ -392,8 +392,8 @@ function TeacherDashboard() {
         </section>
 
         {/* Assigned Subjects */}
-        <section className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-100 p-6 sm:p-8">
+        <section className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md sm:mt-8">
+          <div className="border-b border-slate-100 p-4 sm:p-6 lg:p-8">
             <h2 className="text-xl font-bold text-slate-900">
               My Assigned Subjects
             </h2>
@@ -404,7 +404,7 @@ function TeacherDashboard() {
           </div>
 
           {assignedSubjects.length === 0 ? (
-            <div className="p-10 text-center text-slate-500">
+            <div className="p-6 text-center text-slate-500 sm:p-10">
               No subjects assigned.
             </div>
           ) : (
@@ -464,8 +464,8 @@ function TeacherDashboard() {
         </section>
 
         {/* Recent Attendance */}
-        <section className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-100 p-6 sm:p-8">
+        <section className="mt-6 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md sm:mt-8">
+          <div className="border-b border-slate-100 p-4 sm:p-6 lg:p-8">
             <h2 className="text-xl font-bold text-slate-900">
               Recent Attendance
             </h2>
@@ -476,7 +476,7 @@ function TeacherDashboard() {
           </div>
 
           {recentAttendance.length === 0 ? (
-            <div className="p-10 text-center text-slate-500">
+            <div className="p-6 text-center text-slate-500 sm:p-10">
               No recent attendance found.
             </div>
           ) : (
@@ -539,7 +539,7 @@ function TeacherDashboard() {
           )}
         </section>
 
-        <footer className="mt-10 pb-4 text-center text-sm text-slate-400">
+        <footer className="mt-10 border-t border-slate-200 pt-5 pb-4 text-center text-sm text-slate-400">
           Upsthiti Teacher Portal
         </footer>
       </main>
