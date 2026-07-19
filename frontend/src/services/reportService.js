@@ -1,6 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/apiConfig";
 
-const API_URL = "http://localhost:5000/api/reports";
+const API_URL = `${API_BASE_URL}/reports`;
+const ANALYTICS_URL = `${API_BASE_URL}/report-analytics`;
 
 const getAuthConfig = () => {
   const token = localStorage.getItem("token");
@@ -66,43 +68,25 @@ export const exportTeachersExcel = (params = {}) => {
 };
 
 export const getAttendanceAnalytics = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/attendance",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/attendance`, getAuthConfig());
 };
 
 export const getStudentAnalytics = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/students",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/students`, getAuthConfig());
 };
 
 export const getTeacherAnalytics = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/teachers",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/teachers`, getAuthConfig());
 };
 
 export const getMonthlySummary = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/monthly-summary",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/monthly-summary`, getAuthConfig());
 };
 
 export const getDepartmentSummary = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/department-summary",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/department-summary`, getAuthConfig());
 };
 
 export const getClassSummary = () => {
-  return axios.get(
-    "http://localhost:5000/api/report-analytics/class-summary",
-    getAuthConfig()
-  );
+  return axios.get(`${ANALYTICS_URL}/class-summary`, getAuthConfig());
 };

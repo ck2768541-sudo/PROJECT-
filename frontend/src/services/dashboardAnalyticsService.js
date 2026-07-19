@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/apiConfig";
 
-const API_URL = "http://localhost:5000/api/dashboard-analytics";
 
+const API_URL = `${API_BASE_URL}/dashboard-analytics`;
 export const getDashboardAnalytics = () => {
   return axios.get(API_URL);
 };

@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "../config/apiConfig";
 
-const API_URL = "http://localhost:5000/api/subjects";
 
+const API_URL = `${API_BASE_URL}/subjects`;
 export const createSubject = (data) => {
   return axios.post(API_URL, data);
 };

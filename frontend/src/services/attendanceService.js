@@ -1,6 +1,6 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/attendance";
+import { API_BASE_URL } from "../config/apiConfig";
+const API_URL = `${API_BASE_URL}/attendance`;
 const getAuthConfig = () => {
   const token = localStorage.getItem("token");
 
