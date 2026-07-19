@@ -7,6 +7,12 @@ const User = require("../models/User");
 
 const createAdmin = async () => {
   try {
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (!adminPassword) {
+      throw new Error("ADMIN_PASSWORD environment variable is required");
+    }
+
     await connectDB();
 
     const existingAdmin = await User.findOne({
@@ -15,7 +21,7 @@ const createAdmin = async () => {
 
     if (existingAdmin) {
       console.log("Institute Admin already exists");
-      process.exit();
+      process.exit(0);
     }
 
     const institute = await Institute.create({
@@ -26,7 +32,7 @@ const createAdmin = async () => {
       address: "India",
     });
 
-    const hashedPassword = await bcrypt.hash("Admin@9339", 10);
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     await User.create({
       fullName: "Institute Admin",
@@ -37,7 +43,7 @@ const createAdmin = async () => {
     });
 
     console.log("Institute Admin Created Successfully");
-    process.exit();
+    process.exit(0);
   } catch (error) {
     console.log("Admin Seed Error:", error.message);
     process.exit(1);
