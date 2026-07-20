@@ -34,6 +34,50 @@ import {
 
 const COLORS = ["#22c55e", "#ef4444", "#f59e0b"];
 
+
+const wait = (milliseconds) =>
+  new Promise((resolve) => setTimeout(resolve, milliseconds));
+
+const requestWithRetry = async (
+  requestFunction,
+  maximumAttempts = 5,
+  retryDelay = 7000
+) => {
+  let lastError;
+
+  for (let attempt = 1; attempt <= maximumAttempts; attempt += 1) {
+    try {
+      return await requestFunction();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < maximumAttempts) {
+        await wait(retryDelay);
+      }
+    }
+  }
+
+  throw lastError;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function AdminDashboard() {
   const [analytics, setAnalytics] = useState({
     totalStudents: 0,
@@ -57,39 +101,88 @@ function AdminDashboard() {
   const [subjectWiseAnalytics, setSubjectWiseAnalytics] = useState([]);
   const [classWiseAnalytics, setClassWiseAnalytics] = useState([]);
 
-  useEffect(() => {
-    loadAllAnalytics();
-  }, []);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState("");
+const [hasLoadedData, setHasLoadedData] = useState(false);
 
-  const loadAllAnalytics = async () => {
-    try {
-      const dashboardRes = await getDashboardAnalytics();
-      const instituteRes = await getInstituteAnalytics();
-      const departmentRes = await getDepartmentAnalytics();
-      const classRes = await getClassAnalytics();
-      const subjectRes = await getSubjectAnalytics();
-      const weeklyRes = await getWeeklyAttendanceAnalytics();
-      const monthlyRes = await getMonthlyAttendanceAnalytics();
-      const subjectWiseRes = await getSubjectWiseAttendanceAnalytics();
-      const classWiseRes = await getClassWiseAttendanceAnalytics();
+const loadAllAnalytics = async () => {
+  setLoading(true);
+  setError("");
 
-      setAnalytics(dashboardRes.data.analytics || {});
-      setInstituteAnalytics(instituteRes.data.instituteAnalytics || {});
-      setDepartmentAnalytics(departmentRes.data.departmentAnalytics || []);
-      setClassAnalytics(classRes.data.classAnalytics || []);
-      setSubjectAnalytics(subjectRes.data.subjectAnalytics || []);
-      setWeeklyAnalytics(weeklyRes.data.weeklyAttendance || []);
-      setMonthlyAnalytics(monthlyRes.data.monthlyAttendance || []);
-      setSubjectWiseAnalytics(
-        subjectWiseRes.data.subjectWiseAttendance || []
-      );
-      setClassWiseAnalytics(
-        classWiseRes.data.classWiseAttendance || []
-      );
-    } catch (error) {
-      console.log("Dashboard analytics error:", error);
-    }
-  };
+  try {
+    const [
+      dashboardRes,
+      instituteRes,
+      departmentRes,
+      classRes,
+      subjectRes,
+      weeklyRes,
+      monthlyRes,
+      subjectWiseRes,
+      classWiseRes,
+    ] = await Promise.all([
+      requestWithRetry(() => getDashboardAnalytics()),
+      requestWithRetry(() => getInstituteAnalytics()),
+      requestWithRetry(() => getDepartmentAnalytics()),
+      requestWithRetry(() => getClassAnalytics()),
+      requestWithRetry(() => getSubjectAnalytics()),
+      requestWithRetry(() => getWeeklyAttendanceAnalytics()),
+      requestWithRetry(() => getMonthlyAttendanceAnalytics()),
+      requestWithRetry(() => getSubjectWiseAttendanceAnalytics()),
+      requestWithRetry(() => getClassWiseAttendanceAnalytics()),
+    ]);
+
+    setAnalytics(dashboardRes.data.analytics || {});
+    setInstituteAnalytics(instituteRes.data.instituteAnalytics || {});
+    setDepartmentAnalytics(departmentRes.data.departmentAnalytics || []);
+    setClassAnalytics(classRes.data.classAnalytics || []);
+    setSubjectAnalytics(subjectRes.data.subjectAnalytics || []);
+    setWeeklyAnalytics(weeklyRes.data.weeklyAttendance || []);
+    setMonthlyAnalytics(monthlyRes.data.monthlyAttendance || []);
+    setSubjectWiseAnalytics(
+      subjectWiseRes.data.subjectWiseAttendance || []
+    );
+    setClassWiseAnalytics(
+      classWiseRes.data.classWiseAttendance || []
+    );
+
+    setHasLoadedData(true);
+  } catch (requestError) {
+    console.error("Dashboard analytics error:", requestError);
+
+    setError(
+      "Dashboard data load nahi ho saka. Backend wake hone mein samay lag sakta hai."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  loadAllAnalytics();
+}, []);
+
+
+const showValue = (value, suffix = "") => {
+  if (loading && !hasLoadedData) {
+    return "...";
+  }
+
+  if (error && !hasLoadedData) {
+    return "—";
+  }
+
+  return `${value ?? 0}${suffix}`;
+};
+
+
+
+
+
+
+
+
+
 
   return (
     <div className="flex min-h-screen min-w-0 bg-slate-100">
@@ -105,23 +198,90 @@ function AdminDashboard() {
             Dashboard Analytics
             </h1>
             <p className="mt-2 text-sm text-slate-500">Monitor institute performance, attendance, and academic activity.</p>
+            {loading && (
+  <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+    Dashboard data load ho raha hai. Free backend wake hone mein thoda samay
+    lag sakta hai...
+  </div>
+)}
+
+{error && (
+  <div className="mt-4 flex flex-col gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+    <p className="text-sm font-medium text-red-700">{error}</p>
+
+    <button
+      type="button"
+      onClick={loadAllAnalytics}
+      disabled={loading}
+      className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      {loading ? "Retrying..." : "Reload Dashboard"}
+    </button>
+  </div>
+)}
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <StatsCard title="Total Students" value={analytics.totalStudents} icon="🎓" />
-            <StatsCard title="Total Teachers" value={analytics.totalTeachers} icon="👨‍🏫" />
-            <StatsCard title="Classes" value={analytics.totalClasses} icon="🏫" />
-            <StatsCard title="Departments" value={analytics.totalDepartments} icon="🏢" />
-            <StatsCard title="Subjects" value={analytics.totalSubjects} icon="📚" />
-            <StatsCard title="Attendance Records" value={analytics.totalAttendance} icon="📋" />
-            <StatsCard title="Present" value={analytics.present} icon="✅" />
-            <StatsCard title="Absent" value={analytics.absent} icon="❌" />
-            <StatsCard title="Late" value={analytics.late} icon="⏰" />
-            <StatsCard
-              title="Attendance %"
-              value={`${analytics.attendancePercentage}%`}
-              icon="📊"
-            />
+          <StatsCard
+  title="Total Students"
+  value={showValue(analytics.totalStudents)}
+  icon="🎓"
+/>
+
+<StatsCard
+  title="Total Teachers"
+  value={showValue(analytics.totalTeachers)}
+  icon="👨‍🏫"
+/>
+
+<StatsCard
+  title="Classes"
+  value={showValue(analytics.totalClasses)}
+  icon="🏫"
+/>
+
+<StatsCard
+  title="Departments"
+  value={showValue(analytics.totalDepartments)}
+  icon="🏢"
+/>
+
+<StatsCard
+  title="Subjects"
+  value={showValue(analytics.totalSubjects)}
+  icon="📚"
+/>
+
+<StatsCard
+  title="Attendance Records"
+  value={showValue(analytics.totalAttendance)}
+  icon="📋"
+/>
+
+<StatsCard
+  title="Present"
+  value={showValue(analytics.present)}
+  icon="✅"
+/>
+
+<StatsCard
+  title="Absent"
+  value={showValue(analytics.absent)}
+  icon="❌"
+/>
+
+<StatsCard
+  title="Late"
+  value={showValue(analytics.late)}
+  icon="⏰"
+/>
+
+<StatsCard
+  title="Attendance %"
+  value={showValue(analytics.attendancePercentage, "%")}
+  icon="📊"
+/>
+            
           </div>
 
           <div className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
@@ -191,12 +351,41 @@ function AdminDashboard() {
             </h2>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <StatsCard title="Students" value={instituteAnalytics.totalStudents || 0} icon="🎓" />
-              <StatsCard title="Teachers" value={instituteAnalytics.totalTeachers || 0} icon="👨‍🏫" />
-              <StatsCard title="Classes" value={instituteAnalytics.totalClasses || 0} icon="🏫" />
-              <StatsCard title="Departments" value={instituteAnalytics.totalDepartments || 0} icon="🏢" />
-              <StatsCard title="Subjects" value={instituteAnalytics.totalSubjects || 0} icon="📚" />
-              <StatsCard title="Attendance" value={instituteAnalytics.totalAttendance || 0} icon="📋" />
+          <StatsCard
+  title="Students"
+  value={showValue(instituteAnalytics.totalStudents)}
+  icon="🎓"
+/>
+
+<StatsCard
+  title="Teachers"
+  value={showValue(instituteAnalytics.totalTeachers)}
+  icon="👨‍🏫"
+/>
+
+<StatsCard
+  title="Classes"
+  value={showValue(instituteAnalytics.totalClasses)}
+  icon="🏫"
+/>
+
+<StatsCard
+  title="Departments"
+  value={showValue(instituteAnalytics.totalDepartments)}
+  icon="🏢"
+/>
+
+<StatsCard
+  title="Subjects"
+  value={showValue(instituteAnalytics.totalSubjects)}
+  icon="📚"
+/>
+
+<StatsCard
+  title="Attendance"
+  value={showValue(instituteAnalytics.totalAttendance)}
+  icon="📋"
+/>
             </div>
           </div>
 
