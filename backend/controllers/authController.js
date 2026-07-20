@@ -141,7 +141,6 @@ const forgotPassword = async (req, res) => {
     } catch (emailError) {
       user.resetPasswordOtp = null;
       user.resetPasswordOtpExpires = null;
-      console.error("OTP email sending error:", emailError.message);
       user.resetPasswordOtpVerified = false;
 
       await user.save();
