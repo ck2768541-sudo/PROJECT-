@@ -4,6 +4,7 @@ import Home from "../pages/public/Home";
 import About from "../pages/public/About";
 import PrivacyPolicy from "../pages/public/PrivacyPolicy";
 import TermsAndConditions from "../pages/public/TermsAndConditions";
+import Contact from "../pages/public/Contact";
 import Login from "../pages/auth/Login";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import VerifyOtp from "../pages/auth/VerifyOtp";
@@ -79,6 +80,7 @@ function AppRoutes() {
   path="/terms-and-conditions"
   element={<TermsAndConditions />}
 />
+<Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
 <Route path="/forgot-password" element={<ForgotPassword />} />
 <Route path="/verify-otp" element={<VerifyOtp />} />

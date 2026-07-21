@@ -62,6 +62,14 @@ function Footer() {
     Terms and Conditions
   </Link>
 </li>
+<li>
+  <Link
+    to="/contact"
+    className="transition hover:text-white"
+  >
+    Contact Us
+  </Link>
+</li>
 
 
   <li className="transition hover:text-white">
@@ -90,9 +98,14 @@ function Footer() {
             </h3>
 
             <ul className="space-y-3 break-words text-sm text-slate-400 sm:text-base">
-              <li className="break-all transition hover:text-white">
-              upsthiti.support@gmail.com
-              </li>
+              <li>
+  <a
+    href="mailto:upsthiti.support@gmail.com"
+    className="break-all transition hover:text-white"
+  >
+    upsthiti.support@gmail.com
+  </a>
+</li>
               <li className="transition hover:text-white">India</li>
               <li className="transition hover:text-white">Available 24×7</li>
             </ul>
