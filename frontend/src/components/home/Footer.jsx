@@ -54,6 +54,15 @@ function Footer() {
   </Link>
 </li>
 
+<li>
+  <Link
+    to="/terms-and-conditions"
+    className="transition hover:text-white"
+  >
+    Terms and Conditions
+  </Link>
+</li>
+
 
   <li className="transition hover:text-white">
     Student Management

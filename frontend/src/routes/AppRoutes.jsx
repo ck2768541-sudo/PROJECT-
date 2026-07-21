@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/public/Home";
 import About from "../pages/public/About";
 import PrivacyPolicy from "../pages/public/PrivacyPolicy";
+import TermsAndConditions from "../pages/public/TermsAndConditions";
 import Login from "../pages/auth/Login";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import VerifyOtp from "../pages/auth/VerifyOtp";
@@ -73,6 +74,10 @@ function AppRoutes() {
         <Route
   path="/privacy-policy"
   element={<PrivacyPolicy />}
+/>
+<Route
+  path="/terms-and-conditions"
+  element={<TermsAndConditions />}
 />
         <Route path="/login" element={<Login />} />
 <Route path="/forgot-password" element={<ForgotPassword />} />
