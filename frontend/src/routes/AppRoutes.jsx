@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
+import RouteSeo from "../components/seo/RouteSeo";
 import Home from "../pages/public/Home";
 import About from "../pages/public/About";
 import PrivacyPolicy from "../pages/public/PrivacyPolicy";
@@ -68,6 +68,8 @@ function ProtectedRoute({ children, allowedRoles }) {
 function AppRoutes() {
   return (
     <BrowserRouter>
+      <RouteSeo />
+
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
