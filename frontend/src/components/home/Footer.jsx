@@ -45,6 +45,15 @@ function Footer() {
       About Us
     </Link>
   </li>
+  <li>
+  <Link
+    to="/privacy-policy"
+    className="transition hover:text-white"
+  >
+    Privacy Policy
+  </Link>
+</li>
+
 
   <li className="transition hover:text-white">
     Student Management
