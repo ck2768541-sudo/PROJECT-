@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="relative overflow-hidden bg-slate-950 text-white">
@@ -35,13 +36,33 @@ function Footer() {
             <h3 className="mb-4 text-lg font-bold text-white sm:text-xl">
               Product
             </h3>
+<ul className="space-y-3 break-words text-sm text-slate-400 sm:text-base">
+  <li>
+    <Link
+      to="/about"
+      className="transition hover:text-white"
+    >
+      About Us
+    </Link>
+  </li>
 
-            <ul className="space-y-3 break-words text-sm text-slate-400 sm:text-base">
-              <li className="transition hover:text-white">Student Management</li>
-              <li className="transition hover:text-white">Teacher Management</li>
-              <li className="transition hover:text-white">Attendance Tracking</li>
-              <li className="transition hover:text-white">Reports & Analytics</li>
-            </ul>
+  <li className="transition hover:text-white">
+    Student Management
+  </li>
+
+  <li className="transition hover:text-white">
+    Teacher Management
+  </li>
+
+  <li className="transition hover:text-white">
+    Attendance Tracking
+  </li>
+
+  <li className="transition hover:text-white">
+    Reports & Analytics
+  </li>
+</ul>
+           
           </div>
 
           {/* Contact */}
@@ -52,7 +73,7 @@ function Footer() {
 
             <ul className="space-y-3 break-words text-sm text-slate-400 sm:text-base">
               <li className="break-all transition hover:text-white">
-                support@upsthiti.com
+              upsthiti.support@gmail.com
               </li>
               <li className="transition hover:text-white">India</li>
               <li className="transition hover:text-white">Available 24×7</li>
