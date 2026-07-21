@@ -9,21 +9,20 @@ const {
   deleteDepartment,
 } = require("../controllers/departmentController");
 
-
-
-
 const { protect } = require("../middleware/authMiddleware");
+const {
+  authorizeRoles,
+} = require("../middleware/roleMiddleware");
 
-router.get("/count", protect, getDepartmentCount);
+router.use(
+  protect,
+  authorizeRoles("institute-admin")
+);
 
-router.post("/", protect, createDepartment);
-
-router.get("/", protect, getDepartments);
-
-router.put("/:id", protect, updateDepartment);
-
-router.delete("/:id", protect, deleteDepartment);
-
-
+router.get("/count", getDepartmentCount);
+router.post("/", createDepartment);
+router.get("/", getDepartments);
+router.put("/:id", updateDepartment);
+router.delete("/:id", deleteDepartment);
 
 module.exports = router;

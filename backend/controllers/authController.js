@@ -155,13 +155,14 @@ const forgotPassword = async (req, res) => {
       success: true,
       message: "OTP sent successfully to your email",
     });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Forgot password error",
-      error: error.message,
-    });
-  }
+ } catch (error) {
+  console.error("Login error:", error);
+
+  res.status(500).json({
+    success: false,
+    message: "Unable to login. Please try again.",
+  });
+}
 };
 const verifyOtp = async (req, res) => {
   try {

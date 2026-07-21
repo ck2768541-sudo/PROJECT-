@@ -9,6 +9,16 @@ const {
   deleteSubject,
 } = require("../controllers/subjectController");
 
+const { protect } = require("../middleware/authMiddleware");
+const {
+  authorizeRoles,
+} = require("../middleware/roleMiddleware");
+
+router.use(
+  protect,
+  authorizeRoles("institute-admin")
+);
+
 router.post("/", createSubject);
 router.get("/", getSubjects);
 router.get("/:id", getSubjectById);
