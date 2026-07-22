@@ -1,11 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
 const { protect } = require("../middleware/authMiddleware");
-const {
-  authorizeRoles,
-} = require("../middleware/roleMiddleware");
-
 const {
   markAttendance,
   getAttendance,
@@ -17,72 +12,30 @@ const {
   getSubjectAttendanceReport,
   getTeacherAttendanceData,
 } = require("../controllers/attendanceController");
+router.get("/teacher/data", protect, getTeacherAttendanceData);
+router.post("/", protect, markAttendance);
 
-// Teacher ka assigned class/subject data
-router.get(
-  "/teacher/data",
-  protect,
-  authorizeRoles("teacher"),
-  getTeacherAttendanceData
-);
+router.get("/", protect, getAttendance);
 
-// Admin aur Teacher attendance mark kar sakte hain.
-// Controller ke andar Teacher assignment validation bhi rahegi.
-router.post(
-  "/",
-  protect,
-  authorizeRoles("institute-admin", "teacher"),
-  markAttendance
-);
+router.get("/daily", protect, getDailyAttendance);
 
-// Neeche ke full attendance management routes sirf Admin
-router.get(
-  "/",
-  protect,
-  authorizeRoles("institute-admin"),
-  getAttendance
-);
-
-router.get(
-  "/daily",
-  protect,
-  authorizeRoles("institute-admin"),
-  getDailyAttendance
-);
-
-router.get(
-  "/monthly",
-  protect,
-  authorizeRoles("institute-admin"),
-  getMonthlyAttendance
-);
+router.get("/monthly", protect, getMonthlyAttendance);
 
 router.get(
   "/student/:studentId",
   protect,
-  authorizeRoles("institute-admin"),
   getStudentAttendanceReport
 );
 
 router.get(
   "/subject/:subjectId",
   protect,
-  authorizeRoles("institute-admin"),
   getSubjectAttendanceReport
 );
 
-router.put(
-  "/:id",
-  protect,
-  authorizeRoles("institute-admin"),
-  updateAttendance
-);
+router.put("/:id", protect, updateAttendance);
 
-router.delete(
-  "/:id",
-  protect,
-  authorizeRoles("institute-admin"),
-  deleteAttendance
-);
+router.delete("/:id", protect, deleteAttendance);
+
 
 module.exports = router;

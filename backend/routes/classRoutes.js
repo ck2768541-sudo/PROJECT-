@@ -10,19 +10,11 @@ const {
 } = require("../controllers/classController");
 
 const { protect } = require("../middleware/authMiddleware");
-const {
-  authorizeRoles,
-} = require("../middleware/roleMiddleware");
 
-router.use(
-  protect,
-  authorizeRoles("institute-admin")
-);
-
-router.post("/", createClass);
-router.get("/", getClasses);
-router.get("/count", getClassCount);
-router.put("/:id", updateClass);
-router.delete("/:id", deleteClass);
+router.post("/", protect, createClass);
+router.get("/", protect, getClasses);
+router.get("/count", protect, getClassCount);
+router.put("/:id", protect, updateClass);
+router.delete("/:id", protect, deleteClass);
 
 module.exports = router;
