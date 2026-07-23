@@ -100,10 +100,10 @@ function Footer() {
             <ul className="space-y-3 break-words text-sm text-slate-400 sm:text-base">
               <li>
   <a
-    href="mailto:upsthiti.support@gmail.com"
+    href="mailto:upsthitisupport@gmail.com"
     className="break-all transition hover:text-white"
   >
-    upsthiti.support@gmail.com
+    upsthitisupport@gmail.com
   </a>
 </li>
               <li className="transition hover:text-white">India</li>
